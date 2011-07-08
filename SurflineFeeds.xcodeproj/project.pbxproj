@@ -24,16 +24,19 @@
 		4CC8960B119F0CED00ED61B6 /* MWFeedItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CC89608119F0CED00ED61B6 /* MWFeedItem.m */; };
 		4CC8960F119F0CFB00ED61B6 /* NSString+XMLEntities.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CC8960E119F0CFB00ED61B6 /* NSString+XMLEntities.m */; };
 		4CC89612119F0D0C00ED61B6 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CC89611119F0D0C00ED61B6 /* RootViewController.m */; };
+		F5FE4CC013C67F4D002D9113 /* FlipsideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5FE4CBE13C67F4D002D9113 /* FlipsideViewController.m */; };
+		F5FE4CC513C6802E002D9113 /* Spots.m in Sources */ = {isa = PBXBuildFile; fileRef = F5FE4CC413C6802D002D9113 /* Spots.m */; };
+		F5FE4CC713C685DA002D9113 /* FlipsideView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F5FE4CC613C685DA002D9113 /* FlipsideView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* MWFeedParserAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWFeedParserAppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* MWFeedParserAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWFeedParserAppDelegate.m; sourceTree = "<group>"; };
-		1D6058910D05DD3D006BFB54 /* MWFeedParser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MWFeedParser.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D6058910D05DD3D006BFB54 /* SurflineFeeds.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SurflineFeeds.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		28A0AAE50D9B0CCF005BE974 /* MWFeedParser_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWFeedParser_Prefix.pch; sourceTree = "<group>"; };
+		28A0AAE50D9B0CCF005BE974 /* SurflineFeeds_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SurflineFeeds_Prefix.pch; sourceTree = "<group>"; };
 		28AD735F0D9D9599002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		28F335F01007B36200424DE2 /* RootViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RootViewController.xib; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -58,7 +61,12 @@
 		4CC8960E119F0CFB00ED61B6 /* NSString+XMLEntities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+XMLEntities.m"; sourceTree = "<group>"; };
 		4CC89610119F0D0C00ED61B6 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		4CC89611119F0D0C00ED61B6 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
-		8D1107310486CEB800E47090 /* MWFeedParser-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MWFeedParser-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		8D1107310486CEB800E47090 /* SurflineFeeds-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "SurflineFeeds-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		F5FE4CBD13C67F4D002D9113 /* FlipsideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlipsideViewController.h; sourceTree = "<group>"; };
+		F5FE4CBE13C67F4D002D9113 /* FlipsideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlipsideViewController.m; sourceTree = "<group>"; };
+		F5FE4CC313C6802D002D9113 /* Spots.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Spots.h; sourceTree = "<group>"; };
+		F5FE4CC413C6802D002D9113 /* Spots.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Spots.m; sourceTree = "<group>"; };
+		F5FE4CC613C685DA002D9113 /* FlipsideView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FlipsideView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,7 +96,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D6058910D05DD3D006BFB54 /* MWFeedParser.app */,
+				1D6058910D05DD3D006BFB54 /* SurflineFeeds.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -108,7 +116,7 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				28A0AAE50D9B0CCF005BE974 /* MWFeedParser_Prefix.pch */,
+				28A0AAE50D9B0CCF005BE974 /* SurflineFeeds_Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
 			);
 			name = "Other Sources";
@@ -117,10 +125,11 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				F5FE4CC613C685DA002D9113 /* FlipsideView.xib */,
 				4C661F8A125E50FA007F1792 /* Icon.png */,
 				28F335F01007B36200424DE2 /* RootViewController.xib */,
 				28AD735F0D9D9599002E5188 /* MainWindow.xib */,
-				8D1107310486CEB800E47090 /* MWFeedParser-Info.plist */,
+				8D1107310486CEB800E47090 /* SurflineFeeds-Info.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -184,6 +193,10 @@
 		4CC89620119F0D1E00ED61B6 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				F5FE4CBD13C67F4D002D9113 /* FlipsideViewController.h */,
+				F5FE4CC313C6802D002D9113 /* Spots.h */,
+				F5FE4CC413C6802D002D9113 /* Spots.m */,
+				F5FE4CBE13C67F4D002D9113 /* FlipsideViewController.m */,
 				1D3623240D0F684500981E51 /* MWFeedParserAppDelegate.h */,
 				1D3623250D0F684500981E51 /* MWFeedParserAppDelegate.m */,
 				4CC89610119F0D0C00ED61B6 /* RootViewController.h */,
@@ -197,9 +210,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1D6058900D05DD3D006BFB54 /* MWFeedParser */ = {
+		1D6058900D05DD3D006BFB54 /* SurflineFeeds */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "MWFeedParser" */;
+			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "SurflineFeeds" */;
 			buildPhases = (
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
@@ -209,9 +222,9 @@
 			);
 			dependencies = (
 			);
-			name = MWFeedParser;
+			name = SurflineFeeds;
 			productName = MWFeedParser;
-			productReference = 1D6058910D05DD3D006BFB54 /* MWFeedParser.app */;
+			productReference = 1D6058910D05DD3D006BFB54 /* SurflineFeeds.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -222,7 +235,7 @@
 			attributes = {
 				ORGANIZATIONNAME = "Michael Waterfall";
 			};
-			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "MWFeedParser" */;
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "SurflineFeeds" */;
 			compatibilityVersion = "Xcode 3.1";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
@@ -237,7 +250,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1D6058900D05DD3D006BFB54 /* MWFeedParser */,
+				1D6058900D05DD3D006BFB54 /* SurflineFeeds */,
 			);
 		};
 /* End PBXProject section */
@@ -250,6 +263,7 @@
 				28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */,
 				28F335F11007B36200424DE2 /* RootViewController.xib in Resources */,
 				4C661F8B125E50FA007F1792 /* Icon.png in Resources */,
+				F5FE4CC713C685DA002D9113 /* FlipsideView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -271,6 +285,8 @@
 				4C65F2EB12085ACE00606CFC /* GTMNSString+HTML.m in Sources */,
 				4C65F318120863F800606CFC /* NSString+HTML.m in Sources */,
 				4C661F44125E3F2D007F1792 /* NSDate+InternetDateTime.m in Sources */,
+				F5FE4CC013C67F4D002D9113 /* FlipsideViewController.m in Sources */,
+				F5FE4CC513C6802E002D9113 /* Spots.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -285,12 +301,13 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = MWFeedParser_Prefix.pch;
+				GCC_PREFIX_HEADER = SurflineFeeds_Prefix.pch;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
-				INFOPLIST_FILE = "MWFeedParser-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
-				PRODUCT_NAME = MWFeedParser;
+				INFOPLIST_FILE = "SurflineFeeds-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				PRODUCT_NAME = SurflineFeeds;
 				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = NO;
 			};
 			name = Debug;
@@ -301,12 +318,13 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = MWFeedParser_Prefix.pch;
+				GCC_PREFIX_HEADER = SurflineFeeds_Prefix.pch;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
-				INFOPLIST_FILE = "MWFeedParser-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
-				PRODUCT_NAME = MWFeedParser;
+				INFOPLIST_FILE = "SurflineFeeds-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				PRODUCT_NAME = SurflineFeeds;
 				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = NO;
 			};
 			name = Release;
@@ -341,7 +359,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "MWFeedParser" */ = {
+		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "SurflineFeeds" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Debug */,
@@ -350,7 +368,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "MWFeedParser" */ = {
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "SurflineFeeds" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug */,

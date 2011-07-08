@@ -56,14 +56,30 @@
 	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh 
 																							target:self 
 																							action:@selector(refresh)] autorelease];
-	// Parse
-	NSURL *feedURL = [NSURL URLWithString:@"http://images.apple.com/main/rss/hotnews/hotnews.rss"];
-	feedParser = [[MWFeedParser alloc] initWithFeedURL:feedURL];
+    
+    // Edit settings button
+    self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
+                                                                                           target:self
+                                                                                           action:@selector(showInfo:)] autorelease];
+    
+    spots = [[Spots alloc] init];   // TODO dependency injection?
+    
+    // Parse
+    [self initParser];
+    [feedParser parse];
+}
+
+- (void)initParser {
+    // Get user's spot choice
+
+    NSInteger spotChoiceNum = [[[NSUserDefaults standardUserDefaults] objectForKey:@"spotChoice"] intValue];
+    NSString *spotChoice = [spots spotUrlForRow:spotChoiceNum];
+    
+    NSURL *feedUrl = [NSURL URLWithString:spotChoice];
+	feedParser = [[MWFeedParser alloc] initWithFeedURL:feedUrl];
 	feedParser.delegate = self;
 	feedParser.feedParseType = ParseTypeFull; // Parse feed info and all items
 	feedParser.connectionType = ConnectionTypeAsynchronously;
-	[feedParser parse];
-
 }
 
 #pragma mark -
@@ -74,6 +90,12 @@
 	self.title = @"Refreshing...";
 	[parsedItems removeAllObjects];
 	[feedParser stopParsing];
+    
+    if (YES) {  // TODO no need to re-init if spot choice didn't change
+        [feedParser release];
+        [self initParser];
+    }
+    
 	[feedParser parse];
 	self.tableView.userInteractionEnabled = NO;
 	self.tableView.alpha = 0.3;
@@ -88,7 +110,10 @@
 
 - (void)feedParser:(MWFeedParser *)parser didParseFeedInfo:(MWFeedInfo *)info {
 	NSLog(@"Parsed Feed Info: “%@”", info.title);
-	self.title = info.title;
+    
+    NSString *trimmedTitle = [info.title stringByReplacingOccurrencesOfString:@"Surfline RSS Break Report for "
+                                                                   withString:@""];
+	self.title = trimmedTitle;
 }
 
 - (void)feedParser:(MWFeedParser *)parser didParseFeedItem:(MWFeedItem *)item {
@@ -184,7 +209,51 @@
 	[parsedItems release];
 	[itemsToDisplay release];
 	[feedParser release];
+    [spots release];
     [super dealloc];
+}
+
+#pragma mark -
+#pragma mark FlipsideViewControllerDelegate
+
+- (void)flipsideViewControllerDidFinish:(FlipsideViewController *)controller
+{
+    [self dismissModalViewControllerAnimated:YES];
+    [self refresh];
+}
+
+- (IBAction)showInfo:(id)sender
+{    
+    FlipsideViewController *controller = [[FlipsideViewController alloc] initWithNibName:@"FlipsideView" bundle:nil];
+    controller.delegate = self;
+    
+    controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    [self presentModalViewController:controller animated:YES];
+    
+    [controller release];
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations.
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+
+- (void)didReceiveMemoryWarning
+{
+    // Releases the view if it doesn't have a superview.
+    [super didReceiveMemoryWarning];
+    
+    // Release any cached data, images, etc. that aren't in use.
+}
+
+- (void)viewDidUnload
+{
+    [super viewDidUnload];
+    
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
 }
 
 @end

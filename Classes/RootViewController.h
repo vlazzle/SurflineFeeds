@@ -29,8 +29,10 @@
 
 #import <UIKit/UIKit.h>
 #import "MWFeedParser.h"
+#import "FlipsideViewController.h"
+#import "Spots.h"
 
-@interface RootViewController : UITableViewController <MWFeedParserDelegate> {
+@interface RootViewController : UITableViewController <MWFeedParserDelegate, FlipsideViewControllerDelegate> {
 	
 	// Parsing
 	MWFeedParser *feedParser;
@@ -39,10 +41,15 @@
 	// Displaying
 	NSArray *itemsToDisplay;
 	NSDateFormatter *formatter;
-	
+    
+    Spots *spots;
 }
 
 // Properties
 @property (nonatomic, retain) NSArray *itemsToDisplay;
+
+- (IBAction)showInfo:(id)sender;
+
+- (void)initParser;
 
 @end
