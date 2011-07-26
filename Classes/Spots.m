@@ -18,7 +18,7 @@
     // TODO it would be nice if adding a spot didn't require a migration of NSUserDefaults data (due to alphabetical sorting of keys)
     spots = [[NSDictionary alloc] initWithObjectsAndKeys:
              @"http://feeds.feedburner.com/surfline-rss-surf-report-santa-cruz", @"Santa Cruz",
-             @"http://feeds.feedburner.com/surfline-rss-surf-report-san-francisco-san-mateo-county", @"San Francisco",
+             @"http://feeds.feedburner.com/surfline-rss-surf-report-san-francisco-san-mateo-county", @"SF-San Mateo County",
              @"http://feeds.feedburner.com/surfline-rss-surf-report-monterey-california", @"Monterey",
              @"http://feeds.feedburner.com/surfline-rss-surf-report-san-luis-obispo-county", @"San Luis Obispo County",
              nil];

@@ -244,7 +244,7 @@ typedef enum { SectionDetailSummary } DetailRows;
     self.navigationItem.rightBarButtonItem.enabled = NO;
     [UIView animateWithDuration:SAVE_UNSAVE_DURATION animations:^{
         self.navigationItem.rightBarButtonItem.title = @"Unsave";
-    }completion:^(BOOL finished) {
+    } completion:^(BOOL finished) {
         if (finished) {
             self.navigationItem.rightBarButtonItem.enabled = YES;
             self.navigationItem.rightBarButtonItem.action = @selector(unsaveSpot:);
