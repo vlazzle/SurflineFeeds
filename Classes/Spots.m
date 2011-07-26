@@ -14,17 +14,21 @@
     
     // TODO put this data in a config file or DB or something
     spots = [[NSDictionary alloc] initWithObjectsAndKeys:
-             @"http://feeds.feedburner.com/surfline-rss-surf-report-santa-cruz", @"Santa Cruz",
-             @"http://feeds.feedburner.com/surfline-rss-surf-report-san-francisco-san-mateo-county", @"SF-San Mateo County",
-             @"http://feeds.feedburner.com/surfline-rss-surf-report-monterey-california", @"Monterey",
-             @"http://feeds.feedburner.com/surfline-rss-surf-report-san-luis-obispo-county", @"San Luis Obispo County",
-             @"http://feeds.feedburner.com/surfline-rss-surf-report-oahu-north-shore", @"North Shore Oʻahu",
-             @"http://feeds.feedburner.com/surfline-rss-surf-report-oahu-west-side", @"West Side Oʻahu",
-             @"http://feeds.feedburner.com/surfline-rss-surf-report-oahu-south-shore", @"South Shore Oʻahu",
-             @"http://feeds.feedburner.com/surfline-rss-surf-report-oahu-windward-side", @"Windward Side Oʻahu",
+             @"http://feeds.feedburner.com/surfline-rss-surf-report-santa-cruz", @"CA: Santa Cruz",
+             @"http://feeds.feedburner.com/surfline-rss-surf-report-san-francisco-san-mateo-county", @"CA: SF-San Mateo County",
+             @"http://feeds.feedburner.com/surfline-rss-surf-report-monterey-california", @"CA: Monterey",
+             @"http://feeds.feedburner.com/surfline-rss-surf-report-san-luis-obispo-county", @"CA: San Luis Obispo County",
+             @"http://feeds.feedburner.com/surfline-rss-surf-report-oahu-north-shore", @"HI: Oʻahu: North Shore",
+             @"http://feeds.feedburner.com/surfline-rss-surf-report-oahu-west-side", @"HI: Oʻahu: West Side",
+             @"http://feeds.feedburner.com/surfline-rss-surf-report-oahu-south-shore", @"HI: Oʻahu: South Shore",
+             @"http://feeds.feedburner.com/surfline-rss-surf-report-oahu-windward-side", @"HI: Oʻahu: Windward Side",
              nil];
     
-    titles = [[spots keysSortedByValueUsingSelector:@selector(compare:)] retain];
+    titles = [[NSMutableArray alloc] init];
+    [spots enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        [titles addObject:key];
+    }];
+    [titles sortUsingSelector:@selector(caseInsensitiveCompare:)];
     
     return self;
 }

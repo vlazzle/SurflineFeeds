@@ -9,7 +9,7 @@
 
 @interface Spots : NSObject {
     NSDictionary *spots;
-    NSArray *titles;
+    NSMutableArray *titles;
 }
 
 - (void)pickSpot:(NSUInteger)index;
