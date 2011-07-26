@@ -3,8 +3,6 @@
 //  MWFeedParser
 //
 //  Created by Vladimir Chernis on 7/7/11.
-//  Copyright 2011 Michael Waterfall. All rights reserved.
-//
 
 #import "Spots.h"
 
