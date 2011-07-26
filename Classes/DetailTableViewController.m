@@ -34,6 +34,8 @@ typedef enum { SectionHeader, SectionDetail } Sections;
 typedef enum { SectionHeaderTitle, SectionHeaderDate, SectionHeaderURL } HeaderRows;
 typedef enum { SectionDetailSummary } DetailRows;
 
+#define SAVE_UNSAVE_DURATION 0.5
+
 @implementation DetailTableViewController
 
 @synthesize item, dateString, summaryString;
@@ -71,7 +73,17 @@ typedef enum { SectionDetailSummary } DetailRows;
 	} else {
 		self.summaryString = @"[No Summary]";
 	}
-	
+    
+    // check if current spot is saved
+    NSArray *savedSpots = [[NSUserDefaults standardUserDefaults] objectForKey:@"savedSpots"];
+    UIBarButtonItem *saveUnsaveButton;
+    if ([savedSpots containsObject:item.link]) {
+        saveUnsaveButton = [[UIBarButtonItem alloc] initWithTitle:@"Unsave" style:UIBarButtonSystemItemSave target:self action:@selector(unsaveSpot:)];
+    }
+    else {
+        saveUnsaveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonSystemItemSave target:self action:@selector(saveSpot:)];
+    }
+    self.navigationItem.rightBarButtonItem = saveUnsaveButton;
 }
 
 #pragma mark -
@@ -193,6 +205,62 @@ typedef enum { SectionDetailSummary } DetailRows;
     [super dealloc];
 }
 
+# pragma mark -
+# pragma mark Saving spots
+
+- (void)saveSpot:(id)target {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSArray *savedSpots = [defaults valueForKey:@"savedSpots"];
+    
+    NSLog(@"savedSpots before: %@", savedSpots);
+    
+    if (!savedSpots) {
+        savedSpots = [NSArray arrayWithObject:item.link];
+    }
+    else if (![savedSpots containsObject:item.link]) {
+        savedSpots = [savedSpots arrayByAddingObject:item.link];
+    }
+    
+    [defaults setObject:savedSpots forKey:@"savedSpots"];
+    if (![defaults synchronize]) {
+        [NSException raise:@"Error" format:@"NSUserDefaults synchronize failed"];
+    }
+    
+    self.navigationItem.rightBarButtonItem.enabled = NO;
+    [UIView animateWithDuration:SAVE_UNSAVE_DURATION animations:^{
+        self.navigationItem.rightBarButtonItem.title = @"Unsave";
+    }completion:^(BOOL finished) {
+        if (finished) {
+            self.navigationItem.rightBarButtonItem.enabled = YES;
+            self.navigationItem.rightBarButtonItem.action = @selector(unsaveSpot:);
+        }
+    }]; 
+    
+    NSLog(@"savedSpots after: %@", savedSpots);
+}
+
+- (void)unsaveSpot:(id)target {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSMutableArray *savedSpots = [[defaults valueForKey:@"savedSpots"] mutableCopy];
+    
+    NSLog(@"savedSpots before: %@", savedSpots);
+    
+    [savedSpots removeObject:item.link];
+    [defaults setObject:savedSpots  forKey:@"savedSpots"];
+    
+
+    self.navigationItem.rightBarButtonItem.enabled = NO;    
+    [UIView animateWithDuration:SAVE_UNSAVE_DURATION animations:^{
+        self.navigationItem.rightBarButtonItem.title = @"Save";
+    } completion:^(BOOL finished){
+        if (finished) {
+            self.navigationItem.rightBarButtonItem.enabled = YES;
+            self.navigationItem.rightBarButtonItem.action = @selector(saveSpot:);
+        }
+    }];
+    
+    NSLog(@"savedSpots after: %@", savedSpots);
+}
 
 @end
 

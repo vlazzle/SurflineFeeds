@@ -71,7 +71,7 @@
 
 - (void)initParser {
     // Get user's spot choice
-
+    // returns nil = 0 = first choice if the UserDefault has not been set yet
     NSInteger spotChoiceNum = [[[NSUserDefaults standardUserDefaults] objectForKey:@"spotChoice"] intValue];
     NSString *spotChoice = [spots spotUrlForRow:spotChoiceNum];
     

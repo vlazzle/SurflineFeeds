@@ -38,4 +38,7 @@
 @property (nonatomic, retain) MWFeedItem *item;
 @property (nonatomic, retain) NSString *dateString, *summaryString;
 
+- (void)saveSpot:(id)target;
+- (void)unsaveSpot:(id)target;
+
 @end
