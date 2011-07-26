@@ -15,6 +15,7 @@
     [super init];
     
     // TODO put this data in a config file or DB or something
+    // TODO it would be nice if adding a spot didn't require a migration of NSUserDefaults data (due to alphabetical sorting of keys)
     spots = [[NSDictionary alloc] initWithObjectsAndKeys:
              @"http://feeds.feedburner.com/surfline-rss-surf-report-santa-cruz", @"Santa Cruz",
              @"http://feeds.feedburner.com/surfline-rss-surf-report-san-francisco-san-mateo-county", @"San Francisco",
@@ -29,6 +30,17 @@
 
 - (void)pickSpot:(NSUInteger)index {
     NSLog(@"picked %@", [self spotNameForRow:index]);
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:[NSNumber numberWithInt:index] forKey:@"spotChoice"];
+    if (![defaults synchronize]) {
+        [NSException raise:@"Error" format:@"NSUserDefaults synchronize failed"];
+    }
+}
+
+- (NSUInteger)currentChoice {
+    // returns nil = 0 = first choice if the UserDefault has not been set yet
+    return [[[NSUserDefaults standardUserDefaults] objectForKey:@"spotChoice"] intValue];
 }
 
 - (NSString *)spotNameForRow:(NSUInteger)index {

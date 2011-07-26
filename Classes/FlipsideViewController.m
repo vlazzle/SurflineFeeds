@@ -43,8 +43,7 @@
 {
     [super viewDidLoad];
     
-    // returns nil = 0 = first choice if the UserDefault has not been set yet
-    NSInteger spotChoice = [[[NSUserDefaults standardUserDefaults] objectForKey:@"spotChoice"] intValue];
+    NSInteger spotChoice = [spots currentChoice];
     [spotPickerView selectRow:spotChoice inComponent:0 animated:NO];
 }
 
@@ -84,11 +83,6 @@
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
     [spots pickSpot:row];
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:[NSNumber numberWithInt:row] forKey:@"spotChoice"];
-    if (![defaults synchronize]) {
-        [NSException raise:@"Error" format:@"NSUserDefaults synchronize failed"];
-    }
 }
 
 @end

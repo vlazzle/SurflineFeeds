@@ -15,6 +15,7 @@
 }
 
 - (void)pickSpot:(NSUInteger)index;
+- (NSUInteger)currentChoice;
 - (NSString *)spotNameForRow:(NSUInteger)index;
 - (NSString *)spotUrlForRow:(NSUInteger)index;
 - (NSUInteger)count;
