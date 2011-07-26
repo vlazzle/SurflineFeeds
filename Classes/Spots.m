@@ -18,6 +18,8 @@
     spots = [[NSDictionary alloc] initWithObjectsAndKeys:
              @"http://feeds.feedburner.com/surfline-rss-surf-report-santa-cruz", @"Santa Cruz",
              @"http://feeds.feedburner.com/surfline-rss-surf-report-san-francisco-san-mateo-county", @"San Francisco",
+             @"http://feeds.feedburner.com/surfline-rss-surf-report-monterey-california", @"Monterey",
+             @"http://feeds.feedburner.com/surfline-rss-surf-report-san-luis-obispo-county", @"San Luis Obispo County",
              nil];
     
     titles = [[spots keysSortedByValueUsingSelector:@selector(compare:)] retain];
