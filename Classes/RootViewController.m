@@ -91,14 +91,19 @@
 	[parsedItems removeAllObjects];
 	[feedParser stopParsing];
     
-    if (YES) {  // TODO no need to re-init if spot choice didn't change
-        [feedParser release];
-        [self initParser];
-    }
+    // PERF no need to re-init if spot choice didn't change and no spots were saved or unsaved
+    [feedParser release];
+    [self initParser];
     
 	[feedParser parse];
 	self.tableView.userInteractionEnabled = NO;
 	self.tableView.alpha = 0.3;
+}
+
+- (void)reparse {
+    [parsedItems removeAllObjects];
+    [feedParser stopParsing];
+    [feedParser parse];
 }
 
 #pragma mark -
@@ -123,10 +128,37 @@
 
 - (void)feedParserDidFinish:(MWFeedParser *)parser {
 	NSLog(@"Finished Parsing%@", (parser.stopped ? @" (Stopped)" : @""));
-	self.itemsToDisplay = [parsedItems sortedArrayUsingDescriptors:
-						   [NSArray arrayWithObject:[[[NSSortDescriptor alloc] initWithKey:@"date" 
-																				 ascending:NO] autorelease]]];
-	self.tableView.userInteractionEnabled = YES;
+    
+    NSArray *savedSpots = [[NSUserDefaults standardUserDefaults] objectForKey:@"savedSpots"];
+    NSPredicate *isSaved = [NSPredicate predicateWithFormat:@"link IN %@", savedSpots];
+    NSMutableArray *savedItems = [[NSMutableArray alloc] init];
+    NSMutableArray *unsavedItems = [[NSMutableArray alloc] init];
+    
+    // partition into saved and unsaved items
+    NSEnumerator *it = [parsedItems objectEnumerator];
+    id currentItem;
+    while ((currentItem = [it nextObject])) {
+        if ([isSaved evaluateWithObject:currentItem]) {
+            [savedItems addObject:currentItem];
+        }
+        else {
+            [unsavedItems addObject:currentItem];
+        }
+    }
+    
+    NSArray *sortedSavedItems = [savedItems sortedArrayUsingDescriptors:
+                                 [NSArray arrayWithObject:[[[NSSortDescriptor alloc] initWithKey:@"date"
+                                                                                      ascending:NO] autorelease]]];
+    NSArray *sortedUnsavedItems = [unsavedItems sortedArrayUsingDescriptors:
+                                 [NSArray arrayWithObject:[[[NSSortDescriptor alloc] initWithKey:@"date"
+                                                                                      ascending:NO] autorelease]]];
+    
+    self.itemsToDisplay = [sortedSavedItems arrayByAddingObjectsFromArray:sortedUnsavedItems];
+    
+    [savedItems autorelease];
+    [unsavedItems autorelease];
+    
+    self.tableView.userInteractionEnabled = YES;
 	self.tableView.alpha = 1;
 	[self.tableView reloadData];
 }

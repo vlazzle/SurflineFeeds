@@ -40,5 +40,6 @@
 
 - (void)saveSpot:(id)target;
 - (void)unsaveSpot:(id)target;
+- (void)updateTableView;
 
 @end

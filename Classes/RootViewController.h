@@ -51,5 +51,6 @@
 - (IBAction)showInfo:(id)sender;
 
 - (void)initParser;
+- (void)reparse;
 
 @end

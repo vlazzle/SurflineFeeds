@@ -29,6 +29,7 @@
 
 #import "DetailTableViewController.h"
 #import "NSString+HTML.h"
+#import "RootViewController.h"
 
 typedef enum { SectionHeader, SectionDetail } Sections;
 typedef enum { SectionHeaderTitle, SectionHeaderDate, SectionHeaderURL } HeaderRows;
@@ -74,7 +75,7 @@ typedef enum { SectionDetailSummary } DetailRows;
 		self.summaryString = @"[No Summary]";
 	}
     
-    // check if current spot is saved
+    // check if current spot is saved and set appropriate navbar button
     NSArray *savedSpots = [[NSUserDefaults standardUserDefaults] objectForKey:@"savedSpots"];
     UIBarButtonItem *saveUnsaveButton;
     if ([savedSpots containsObject:item.link]) {
@@ -226,6 +227,8 @@ typedef enum { SectionDetailSummary } DetailRows;
         [NSException raise:@"Error" format:@"NSUserDefaults synchronize failed"];
     }
     
+    NSLog(@"savedSpots after: %@", savedSpots);
+    
     self.navigationItem.rightBarButtonItem.enabled = NO;
     [UIView animateWithDuration:SAVE_UNSAVE_DURATION animations:^{
         self.navigationItem.rightBarButtonItem.title = @"Unsave";
@@ -234,9 +237,9 @@ typedef enum { SectionDetailSummary } DetailRows;
             self.navigationItem.rightBarButtonItem.enabled = YES;
             self.navigationItem.rightBarButtonItem.action = @selector(unsaveSpot:);
         }
-    }]; 
-    
-    NSLog(@"savedSpots after: %@", savedSpots);
+    }];
+
+    [self updateTableView];
 }
 
 - (void)unsaveSpot:(id)target {
@@ -247,6 +250,12 @@ typedef enum { SectionDetailSummary } DetailRows;
     
     [savedSpots removeObject:item.link];
     [defaults setObject:savedSpots  forKey:@"savedSpots"];
+    if (![defaults synchronize]) {
+        [NSException raise:@"Error" format:@"NSUserDefaults synchronize failed"];
+    }
+    
+    NSLog(@"savedSpots after: %@", savedSpots);
+    [savedSpots release];
     
 
     self.navigationItem.rightBarButtonItem.enabled = NO;    
@@ -259,7 +268,13 @@ typedef enum { SectionDetailSummary } DetailRows;
         }
     }];
     
-    NSLog(@"savedSpots after: %@", savedSpots);
+    [self updateTableView];
+}
+
+- (void)updateTableView {
+    NSLog(@"root vc: %@", [self.navigationController.viewControllers objectAtIndex:0]);
+    RootViewController *rootVC = [self.navigationController.viewControllers objectAtIndex:0];
+    [rootVC reparse];
 }
 
 @end
