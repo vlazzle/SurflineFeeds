@@ -31,7 +31,7 @@
 #import "NSString+HTML.h"
 #import "RootViewController.h"
 
-typedef enum { SectionHeader, SectionDetail } Sections;
+typedef enum { SectionHeader, SectionDetail, SectionNotes } Sections;
 typedef enum { SectionHeaderTitle, SectionHeaderDate, SectionHeaderURL } HeaderRows;
 typedef enum { SectionDetailSummary } DetailRows;
 
@@ -76,9 +76,9 @@ typedef enum { SectionDetailSummary } DetailRows;
 	}
     
     // check if current spot is saved and set appropriate navbar button
-    NSArray *savedSpots = [[NSUserDefaults standardUserDefaults] objectForKey:@"savedSpots"];
+    
     UIBarButtonItem *saveUnsaveButton;
-    if ([savedSpots containsObject:item.link]) {
+    if ([self itemIsSaved]) {
         saveUnsaveButton = [[UIBarButtonItem alloc] initWithTitle:@"Unsave" style:UIBarButtonSystemItemSave target:self action:@selector(unsaveSpot:)];
     }
     else {
@@ -87,19 +87,24 @@ typedef enum { SectionDetailSummary } DetailRows;
     self.navigationItem.rightBarButtonItem = saveUnsaveButton;
 }
 
+- (BOOL)itemIsSaved {
+    NSArray *savedSpots = [[NSUserDefaults standardUserDefaults] objectForKey:@"savedSpots"];
+    return [savedSpots containsObject:item.link];
+}
+
 #pragma mark -
 #pragma mark Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    return 2;
+    return 3;
 }
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
 	switch (section) {
-		case 0: return 3;
+		case SectionHeader: return 3;
 		default: return 1;
 	}
 }
@@ -153,6 +158,13 @@ typedef enum { SectionDetailSummary } DetailRows;
 				break;
 				
 			}
+            case SectionNotes: {
+                cell.textLabel.text = [self itemIsSaved] ?
+                    @"Tip: This spot is saved, so it'll appear near the top of the list. Unsave to restore normal order." :
+                    @"Tip: Tap the Save button to stash this spot near the top of the list.";
+                cell.textLabel.numberOfLines = 0; // Multiline
+                break;
+            }
 		}
 	}
     
@@ -239,7 +251,7 @@ typedef enum { SectionDetailSummary } DetailRows;
         }
     }];
 
-    [self updateTableView];
+    [self saveUnsaveButtonWasClicked];
 }
 
 - (void)unsaveSpot:(id)target {
@@ -268,13 +280,14 @@ typedef enum { SectionDetailSummary } DetailRows;
         }
     }];
     
-    [self updateTableView];
+    [self saveUnsaveButtonWasClicked];
 }
 
-- (void)updateTableView {
-    NSLog(@"root vc: %@", [self.navigationController.viewControllers objectAtIndex:0]);
+- (void)saveUnsaveButtonWasClicked {
     RootViewController *rootVC = [self.navigationController.viewControllers objectAtIndex:0];
-    [rootVC reparse];
+    [rootVC savedSpotsDidChange];
+    
+    [self.tableView reloadData];
 }
 
 @end

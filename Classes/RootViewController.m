@@ -91,7 +91,7 @@
 	[parsedItems removeAllObjects];
 	[feedParser stopParsing];
     
-    // PERF no need to re-init if spot choice didn't change and no spots were saved or unsaved
+    // PERF OPT no need to re-init if spot choice didn't change and no spots were saved or unsaved
     [feedParser release];
     [self initParser];
     
@@ -100,10 +100,11 @@
 	self.tableView.alpha = 0.3;
 }
 
-- (void)reparse {
-    [parsedItems removeAllObjects];
-    [feedParser stopParsing];
-    [feedParser parse];
+- (void)savedSpotsDidChange {
+	self.tableView.userInteractionEnabled = NO;
+	self.tableView.alpha = 0.3;
+
+    [self feedParserDidFinish:feedParser];
 }
 
 #pragma mark -

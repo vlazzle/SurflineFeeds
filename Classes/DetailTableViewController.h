@@ -40,6 +40,7 @@
 
 - (void)saveSpot:(id)target;
 - (void)unsaveSpot:(id)target;
-- (void)updateTableView;
+- (void)saveUnsaveButtonWasClicked;
+- (BOOL)itemIsSaved;
 
 @end
