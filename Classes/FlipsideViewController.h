@@ -14,7 +14,6 @@
 
 @interface FlipsideViewController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate> {
     Feeds *feeds;
-    UIPickerView *feedPickerView;    
 }
 
 @property (nonatomic, assign) id <FlipsideViewControllerDelegate> delegate;

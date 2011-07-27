@@ -41,7 +41,7 @@
 {
     [super viewDidLoad];
     
-    [feedPickerView selectRow:[feeds currentChoice] inComponent:0 animated:NO];
+    [self.feedPickerView selectRow:[feeds currentChoice] inComponent:0 animated:NO];
 }
 
 - (void)viewDidUnload
