@@ -32,7 +32,7 @@
 #import "FlipsideViewController.h"
 #import "Feeds.h"
 
-@interface RootViewController : UITableViewController <MWFeedParserDelegate, FlipsideViewControllerDelegate> {
+@interface RootViewController : UITableViewController <UITableViewDelegate, MWFeedParserDelegate, FlipsideViewControllerDelegate> {
 	
 	// Parsing
 	MWFeedParser *feedParser;
@@ -42,6 +42,7 @@
 	NSArray *itemsToDisplay;
 	NSDateFormatter *formatter;
     
+    // Feed URL choice
     Feeds *feeds;
 }
 
