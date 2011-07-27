@@ -20,11 +20,6 @@
 @property (nonatomic, assign) id <FlipsideViewControllerDelegate> delegate;
 @property (readonly, nonatomic) IBOutlet UIPickerView *feedPickerView;
 
-- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView;
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component;
-
-- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component;
-
 - (IBAction)done:(id)sender;
 
 @end
