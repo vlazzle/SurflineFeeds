@@ -1,9 +1,7 @@
 //
 //  FlipsideViewController.m
-//  MWFeedParser
 //
 //  Created by Vladimir Chernis on 7/7/11.
-//  Copyright 2011 Michael Waterfall. All rights reserved.
 //
 
 #import "FlipsideViewController.h"
@@ -11,7 +9,7 @@
 
 @implementation FlipsideViewController
 
-@synthesize delegate=_delegate, feedPickerView;
+@synthesize delegate=_delegate, feedPickerView=_feedPickerView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -56,7 +54,7 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return YES;
 }
 
 #pragma mark - Actions

@@ -258,7 +258,7 @@
     FlipsideViewController *controller = [[FlipsideViewController alloc] initWithNibName:@"FlipsideView" bundle:nil];
     controller.delegate = self;
     
-    controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    controller.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     [self presentModalViewController:controller animated:YES];
     
     [controller release];
@@ -267,7 +267,7 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations.
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return YES;
 }
 
 
