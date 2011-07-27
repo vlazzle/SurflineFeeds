@@ -47,6 +47,7 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
 	// Save data if appropriate
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 #pragma mark -
