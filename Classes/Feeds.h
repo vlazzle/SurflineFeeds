@@ -8,7 +8,7 @@
 
 @interface Feeds : NSObject {
     NSDictionary *feeds;
-    NSMutableArray *titles;
+    NSMutableArray *feedNames;
 }
 
 - (void)pickFeed:(NSUInteger)index;

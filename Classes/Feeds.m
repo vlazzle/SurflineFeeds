@@ -23,11 +23,11 @@
              @"http://feeds.feedburner.com/surfline-rss-surf-report-oahu-windward-side", @"HI: Oʻahu: Windward Side",
              nil];
     
-    titles = [[NSMutableArray alloc] init];
+    feedNames = [[NSMutableArray alloc] init];
     [feeds enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-        [titles addObject:key];
+        [feedNames addObject:key];
     }];
-    [titles sortUsingSelector:@selector(caseInsensitiveCompare:)];
+    [feedNames sortUsingSelector:@selector(caseInsensitiveCompare:)];
     
     return self;
 }
@@ -46,22 +46,23 @@
 - (NSUInteger)currentChoice {    
     NSString *feedName = [[NSUserDefaults standardUserDefaults] objectForKey:@"feedChoice"];
     if (feedName) {
-        NSUInteger choiceNum = [titles indexOfObject:feedName];
+        NSUInteger choiceNum = [feedNames indexOfObject:feedName];
         if (NSNotFound != choiceNum) {
             return choiceNum;
         }
     }
     
+    // default to the first option if no valid choice is saved
     return 0;
 }
 
 - (NSString *)feedNameForRow:(NSUInteger)index {
-    return [titles objectAtIndex:index];
+    return [feedNames objectAtIndex:index];
 }
 
 - (NSString *)feedUrlForRow:(NSUInteger)index {
-    NSString *title = [titles objectAtIndex:index];
-    return [feeds objectForKey:title];
+    NSString *feedName = [self feedNameForRow:index];
+    return [feeds objectForKey:feedName];
 }
 
 - (NSUInteger)count {
@@ -70,7 +71,7 @@
 
 - (void)dealloc {
     [feeds release];
-    [titles release];
+    [feedNames release];
     [super dealloc];
 }
 
