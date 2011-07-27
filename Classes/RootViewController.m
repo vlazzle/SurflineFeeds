@@ -71,9 +71,8 @@
 
 - (void)initParser {
     NSInteger feedChoiceNum = [feeds currentChoice];
-    NSString *feedChoice = [feeds feedUrlForRow:feedChoiceNum];
+    NSURL *feedUrl = [NSURL URLWithString:[feeds feedUrlForRow:feedChoiceNum]];
     
-    NSURL *feedUrl = [NSURL URLWithString:feedChoice];
 	feedParser = [[MWFeedParser alloc] initWithFeedURL:feedUrl];
 	feedParser.delegate = self;
 	feedParser.feedParseType = ParseTypeFull; // Parse feed info and all items
@@ -92,8 +91,9 @@
     // PERF OPT no need to re-init if spot choice didn't change and no spots were saved or unsaved
     [feedParser release];
     [self initParser];
+	
+    [feedParser parse];
     
-	[feedParser parse];
 	self.tableView.userInteractionEnabled = NO;
 	self.tableView.alpha = 0.3;
 }
@@ -129,33 +129,20 @@
 	NSLog(@"Finished Parsing%@", (parser.stopped ? @" (Stopped)" : @""));
     
     NSArray *savedSpots = [[NSUserDefaults standardUserDefaults] objectForKey:@"savedSpots"];
-    NSPredicate *isSaved = [NSPredicate predicateWithFormat:@"link IN %@", savedSpots];
-    NSMutableArray *savedItems = [[NSMutableArray alloc] init];
-    NSMutableArray *unsavedItems = [[NSMutableArray alloc] init];
+    NSMutableArray *savedItems = [NSMutableArray array];
+    NSMutableArray *unsavedItems = [NSMutableArray array];
     
     // partition into saved and unsaved items
-    NSEnumerator *it = [parsedItems objectEnumerator];
-    id currentItem;
-    while ((currentItem = [it nextObject])) {
-        if ([isSaved evaluateWithObject:currentItem]) {
-            [savedItems addObject:currentItem];
-        }
-        else {
-            [unsavedItems addObject:currentItem];
-        }
-    }
+    [parsedItems enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        NSString *itemLink = ((MWFeedItem *) obj).link;
+        [([savedSpots containsObject:itemLink] ? savedItems : unsavedItems) addObject:obj];
+    }];
     
-    NSArray *sortedSavedItems = [savedItems sortedArrayUsingDescriptors:
-                                 [NSArray arrayWithObject:[[[NSSortDescriptor alloc] initWithKey:@"date"
-                                                                                      ascending:NO] autorelease]]];
-    NSArray *sortedUnsavedItems = [unsavedItems sortedArrayUsingDescriptors:
-                                 [NSArray arrayWithObject:[[[NSSortDescriptor alloc] initWithKey:@"date"
-                                                                                      ascending:NO] autorelease]]];
-    
+    NSSortDescriptor *newestFirst = [NSSortDescriptor sortDescriptorWithKey:@"date" ascending:NO];
+    NSArray *sortDescriptors = [NSArray arrayWithObject:newestFirst];
+    NSArray *sortedSavedItems = [savedItems sortedArrayUsingDescriptors:sortDescriptors];
+    NSArray *sortedUnsavedItems = [unsavedItems sortedArrayUsingDescriptors:sortDescriptors];
     self.itemsToDisplay = [sortedSavedItems arrayByAddingObjectsFromArray:sortedUnsavedItems];
-    
-    [savedItems autorelease];
-    [unsavedItems autorelease];
     
     self.tableView.userInteractionEnabled = YES;
 	self.tableView.alpha = 1;
@@ -229,7 +216,6 @@
 	
 	// Deselect
 	[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-	
 }
 
 #pragma mark -
