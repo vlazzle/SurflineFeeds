@@ -25,7 +25,7 @@
 		4CC8960F119F0CFB00ED61B6 /* NSString+XMLEntities.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CC8960E119F0CFB00ED61B6 /* NSString+XMLEntities.m */; };
 		4CC89612119F0D0C00ED61B6 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CC89611119F0D0C00ED61B6 /* RootViewController.m */; };
 		F5FE4CC013C67F4D002D9113 /* FlipsideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5FE4CBE13C67F4D002D9113 /* FlipsideViewController.m */; };
-		F5FE4CC513C6802E002D9113 /* Spots.m in Sources */ = {isa = PBXBuildFile; fileRef = F5FE4CC413C6802D002D9113 /* Spots.m */; };
+		F5FE4CC513C6802E002D9113 /* Feeds.m in Sources */ = {isa = PBXBuildFile; fileRef = F5FE4CC413C6802D002D9113 /* Feeds.m */; };
 		F5FE4CC713C685DA002D9113 /* FlipsideView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F5FE4CC613C685DA002D9113 /* FlipsideView.xib */; };
 /* End PBXBuildFile section */
 
@@ -64,8 +64,8 @@
 		8D1107310486CEB800E47090 /* SurflineFeeds-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "SurflineFeeds-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		F5FE4CBD13C67F4D002D9113 /* FlipsideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlipsideViewController.h; sourceTree = "<group>"; };
 		F5FE4CBE13C67F4D002D9113 /* FlipsideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlipsideViewController.m; sourceTree = "<group>"; };
-		F5FE4CC313C6802D002D9113 /* Spots.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Spots.h; sourceTree = "<group>"; };
-		F5FE4CC413C6802D002D9113 /* Spots.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Spots.m; sourceTree = "<group>"; };
+		F5FE4CC313C6802D002D9113 /* Feeds.h */ = {isa = PBXFileReference; fileEncoding = 4; path = Feeds.h; sourceTree = "<group>"; };
+		F5FE4CC413C6802D002D9113 /* Feeds.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Feeds.m; sourceTree = "<group>"; };
 		F5FE4CC613C685DA002D9113 /* FlipsideView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FlipsideView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -194,8 +194,8 @@
 			isa = PBXGroup;
 			children = (
 				F5FE4CBD13C67F4D002D9113 /* FlipsideViewController.h */,
-				F5FE4CC313C6802D002D9113 /* Spots.h */,
-				F5FE4CC413C6802D002D9113 /* Spots.m */,
+				F5FE4CC313C6802D002D9113 /* Feeds.h */,
+				F5FE4CC413C6802D002D9113 /* Feeds.m */,
 				F5FE4CBE13C67F4D002D9113 /* FlipsideViewController.m */,
 				1D3623240D0F684500981E51 /* MWFeedParserAppDelegate.h */,
 				1D3623250D0F684500981E51 /* MWFeedParserAppDelegate.m */,
@@ -286,7 +286,7 @@
 				4C65F318120863F800606CFC /* NSString+HTML.m in Sources */,
 				4C661F44125E3F2D007F1792 /* NSDate+InternetDateTime.m in Sources */,
 				F5FE4CC013C67F4D002D9113 /* FlipsideViewController.m in Sources */,
-				F5FE4CC513C6802E002D9113 /* Spots.m in Sources */,
+				F5FE4CC513C6802E002D9113 /* Feeds.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

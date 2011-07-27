@@ -62,7 +62,7 @@
                                                                                            target:self
                                                                                            action:@selector(showInfo:)] autorelease];
     
-    spots = [[Spots alloc] init];   // TODO dependency injection?
+    feeds = [[Feeds alloc] init];   // TODO dependency injection?
     
     // Parse
     [self initParser];
@@ -70,10 +70,10 @@
 }
 
 - (void)initParser {
-    NSInteger spotChoiceNum = [spots currentChoice];
-    NSString *spotChoice = [spots spotUrlForRow:spotChoiceNum];
+    NSInteger feedChoiceNum = [feeds currentChoice];
+    NSString *feedChoice = [feeds feedUrlForRow:feedChoiceNum];
     
-    NSURL *feedUrl = [NSURL URLWithString:spotChoice];
+    NSURL *feedUrl = [NSURL URLWithString:feedChoice];
 	feedParser = [[MWFeedParser alloc] initWithFeedURL:feedUrl];
 	feedParser.delegate = self;
 	feedParser.feedParseType = ParseTypeFull; // Parse feed info and all items
@@ -240,7 +240,7 @@
 	[parsedItems release];
 	[itemsToDisplay release];
 	[feedParser release];
-    [spots release];
+    [feeds release];
     [super dealloc];
 }
 

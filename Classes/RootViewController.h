@@ -30,7 +30,7 @@
 #import <UIKit/UIKit.h>
 #import "MWFeedParser.h"
 #import "FlipsideViewController.h"
-#import "Spots.h"
+#import "Feeds.h"
 
 @interface RootViewController : UITableViewController <MWFeedParserDelegate, FlipsideViewControllerDelegate> {
 	
@@ -42,7 +42,7 @@
 	NSArray *itemsToDisplay;
 	NSDateFormatter *formatter;
     
-    Spots *spots;
+    Feeds *feeds;
 }
 
 // Properties

@@ -11,21 +11,21 @@
 
 @implementation FlipsideViewController
 
-@synthesize delegate=_delegate, spotPickerView;
+@synthesize delegate=_delegate, feedPickerView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // TODO dependency injection?
-        spots = [[Spots alloc] init];
+        feeds = [[Feeds alloc] init];
     }
     return self;
 }
 
 - (void)dealloc
 {
-    [spots release];
+    [feeds release];
     [super dealloc];
 }
 
@@ -43,8 +43,7 @@
 {
     [super viewDidLoad];
     
-    NSInteger spotChoice = [spots currentChoice];
-    [spotPickerView selectRow:spotChoice inComponent:0 animated:NO];
+    [feedPickerView selectRow:[feeds currentChoice] inComponent:0 animated:NO];
 }
 
 - (void)viewDidUnload
@@ -74,15 +73,15 @@
 }
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
-    return [spots count];
+    return [feeds count];
 }
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-    return [spots spotNameForRow:row];
+    return [feeds feedNameForRow:row];
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-    [spots pickSpot:row];
+    [feeds pickFeed:row];
 }
 
 @end

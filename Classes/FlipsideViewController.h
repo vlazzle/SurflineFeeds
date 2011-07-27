@@ -8,17 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
-#import "Spots.h"
+#import "Feeds.h"
 
 @protocol FlipsideViewControllerDelegate;
 
 @interface FlipsideViewController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate> {
-    Spots *spots;
-    UIPickerView *spotPickerView;    
+    Feeds *feeds;
+    UIPickerView *feedPickerView;    
 }
 
 @property (nonatomic, assign) id <FlipsideViewControllerDelegate> delegate;
-@property (readonly, nonatomic) IBOutlet UIPickerView *spotPickerView;
+@property (readonly, nonatomic) IBOutlet UIPickerView *feedPickerView;
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView;
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component;
