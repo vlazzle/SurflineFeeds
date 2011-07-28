@@ -186,19 +186,23 @@
 	// Configure the cell.
 	MWFeedItem *item = [itemsToDisplay objectAtIndex:indexPath.row];
 	if (item) {
-		
-		// Process
-		NSString *itemTitle = item.title ? [item.title stringByConvertingHTMLToPlainText] : @"[No Title]";
-		NSString *itemSummary = item.summary ? [item.summary stringByConvertingHTMLToPlainText] : @"[No Summary]";
-		
-		// Set
+        // Process
+        NSString *title, *subtitle;
+        if (item.title) {
+            NSString *plainTextTitle = [item.title stringByConvertingHTMLToPlainText];
+            NSRange sepRange = [plainTextTitle rangeOfString:@" : "];
+            title = [plainTextTitle substringToIndex:sepRange.location];
+            subtitle = [plainTextTitle substringFromIndex:(sepRange.location + sepRange.length)];
+        }
+        else {
+            title = @"[No title]";
+            subtitle = @"[No subtitle]";
+        }
+        
+        // Set
 		cell.textLabel.font = [UIFont boldSystemFontOfSize:15];
-		cell.textLabel.text = itemTitle;
-		NSMutableString *subtitle = [NSMutableString string];
-		if (item.date) [subtitle appendFormat:@"%@: ", [formatter stringFromDate:item.date]];
-		[subtitle appendString:itemSummary];
+		cell.textLabel.text = title;
 		cell.detailTextLabel.text = subtitle;
-		
 	}
     return cell;
 }
