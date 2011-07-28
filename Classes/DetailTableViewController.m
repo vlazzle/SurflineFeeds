@@ -31,7 +31,7 @@
 #import "NSString+HTML.h"
 #import "RootViewController.h"
 
-typedef enum { SectionHeader, SectionDetail, SectionNotes } Sections;
+typedef enum { SectionHeader, SectionDetail, SectionTips } Sections;
 typedef enum { SectionHeaderTitle, SectionHeaderDate, SectionHeaderURL } HeaderRows;
 typedef enum { SectionDetailSummary } DetailRows;
 
@@ -158,10 +158,8 @@ typedef enum { SectionDetailSummary } DetailRows;
 				break;
 				
 			}
-            case SectionNotes: {
-                cell.textLabel.text = [self itemIsSaved] ?
-                    @"Tip: This spot is saved, so it'll appear near the top of the list. Unsave to restore normal order." :
-                    @"Tip: Tap the Save button to stash this spot near the top of the list.";
+            case SectionTips: {
+                cell.textLabel.text = [self tipsForCurrentItem];
                 cell.textLabel.numberOfLines = 0; // Multiline
                 break;
             }
@@ -172,22 +170,37 @@ typedef enum { SectionDetailSummary } DetailRows;
 	
 }
 
+- (NSString *)tipsForCurrentItem {
+    if ([self itemIsSaved]) {
+        return @"Tip: This spot is saved, so it'll appear near the top of the list. Unsave to restore normal order.";
+    } else {
+        return @"Tip: Tap the Save button to stash this spot near the top of the list.";
+    }
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 	if (indexPath.section == SectionHeader) {
 		
 		// Regular
 		return 34;
-		
 	} else {
-		
-		// Get height of summary
-		NSString *summary = @"[No Summary]";
-		if (summaryString) summary = summaryString;
-		CGSize s = [summary sizeWithFont:[UIFont systemFontOfSize:15] 
+		// Get height of summary or notes
+        
+        NSString *cellTextContent;
+        if (indexPath.section == SectionDetail) {
+            cellTextContent = @"[No Summary]";
+            if (summaryString) cellTextContent = summaryString;
+        }
+        else if (indexPath.section == SectionTips) {
+            cellTextContent = [self tipsForCurrentItem];
+        }
+        else {
+            cellTextContent = @"";
+        }
+		CGSize s = [cellTextContent sizeWithFont:[UIFont systemFontOfSize:15] 
 					   constrainedToSize:CGSizeMake(self.view.bounds.size.width - 40, MAXFLOAT)  // - 40 For cell padding
 						   lineBreakMode:UILineBreakModeWordWrap];
 		return s.height + 16; // Add padding
-		
 	}
 }
 
