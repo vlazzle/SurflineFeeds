@@ -47,7 +47,7 @@
 	// Setup
 	self.title = @"Loading...";
 	formatter = [[NSDateFormatter alloc] init];
-	[formatter setDateStyle:NSDateFormatterShortStyle];
+    [formatter setDateStyle:NSDateFormatterNoStyle];
 	[formatter setTimeStyle:NSDateFormatterShortStyle];
 	parsedItems = [[NSMutableArray alloc] init];
 	self.itemsToDisplay = [NSArray array];
@@ -191,7 +191,9 @@
         if (item.title) {
             NSString *plainTextTitle = [item.title stringByConvertingHTMLToPlainText];
             NSRange sepRange = [plainTextTitle rangeOfString:@" : "];
-            title = [plainTextTitle substringToIndex:sepRange.location];
+            title = [NSString stringWithFormat:@"%@ @ %@",
+                     [plainTextTitle substringToIndex:sepRange.location],
+                     [formatter stringFromDate:item.date]];
             subtitle = [plainTextTitle substringFromIndex:(sepRange.location + sepRange.length)];
         }
         else {
