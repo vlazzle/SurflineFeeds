@@ -124,9 +124,6 @@ typedef enum { SectionDetailSummary } DetailRows;
 	cell.textLabel.font = [UIFont systemFontOfSize:15];
 	if (item) {
 		
-		// Item Info
-		NSString *itemTitle = item.title ? [item.title stringByConvertingHTMLToPlainText] : @"[No Title]";
-		
 		// Display
 		switch (indexPath.section) {
 			case SectionHeader: {
@@ -135,13 +132,14 @@ typedef enum { SectionDetailSummary } DetailRows;
 				switch (indexPath.row) {
 					case SectionHeaderTitle:
 						cell.textLabel.font = [UIFont boldSystemFontOfSize:15];
-						cell.textLabel.text = itemTitle;
+						cell.textLabel.text = [self titleForCurrentItem];;
+                        cell.textLabel.numberOfLines = 0; // Multiline
 						break;
 					case SectionHeaderDate:
 						cell.textLabel.text = dateString ? dateString : @"[No Date]";
 						break;
 					case SectionHeaderURL:
-						cell.textLabel.text = item.link ? item.link : @"[No Link]";
+						cell.textLabel.text = item.link ? @"open full report in Safari" : @"[No Link]";
 						cell.textLabel.textColor = [UIColor blueColor];
 						cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 						break;
@@ -169,6 +167,12 @@ typedef enum { SectionDetailSummary } DetailRows;
 	
 }
 
+- (NSString *)titleForCurrentItem {
+    // Item Info
+    NSString *itemTitle = item.title ? [item.title stringByConvertingHTMLToPlainText] : @"[No Title]";
+    return itemTitle;
+}
+
 - (NSString *)tipsForCurrentItem {
     if ([self itemIsSaved]) {
         return @"Tip: This spot is saved, so it'll appear near the top of the list. Unsave to restore normal order.";
@@ -179,9 +183,16 @@ typedef enum { SectionDetailSummary } DetailRows;
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 	if (indexPath.section == SectionHeader) {
-		
-		// Regular
-		return 34;
+        if (indexPath.row == SectionHeaderTitle) {
+            CGSize s = [[self titleForCurrentItem] sizeWithFont:[UIFont boldSystemFontOfSize:15] 
+                                   constrainedToSize:CGSizeMake(self.view.bounds.size.width - 40, MAXFLOAT)  // - 40 For cell padding
+                                       lineBreakMode:UILineBreakModeWordWrap];
+            return s.height + 16; // Add padding
+        }
+        else {
+            // Regular
+            return 34;
+        }
 	} else {
 		// Get height of summary or notes
         

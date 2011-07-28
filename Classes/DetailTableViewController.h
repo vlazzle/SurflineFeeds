@@ -42,6 +42,7 @@
 - (void)unsaveSpot:(id)target;
 - (void)saveUnsaveButtonWasClicked;
 - (BOOL)itemIsSaved;
+- (NSString *)titleForCurrentItem;
 - (NSString *)tipsForCurrentItem;
 
 @end
