@@ -39,14 +39,14 @@ typedef enum { SectionDetailSummary } DetailRows;
 
 @implementation DetailTableViewController
 
-@synthesize item, dateString, summaryString;
+@synthesize item=_item, dateString=_dateString, summaryString=_summaryString;
 
 #pragma mark -
 #pragma mark Initialization
 
 - (id)initWithStyle:(UITableViewStyle)style {
     if ((self = [super initWithStyle:style])) {
-		
+        
     }
     return self;
 }
@@ -60,17 +60,17 @@ typedef enum { SectionDetailSummary } DetailRows;
     [super viewDidLoad];
 
 	// Date
-	if (item.date) {
+	if (self.item.date) {
 		NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
 		[formatter setDateStyle:NSDateFormatterMediumStyle];
 		[formatter setTimeStyle:NSDateFormatterMediumStyle];
-		self.dateString = [formatter stringFromDate:item.date];
+		self.dateString = [NSString stringWithFormat:@"last updated %@", [formatter stringFromDate:self.item.date]];
 		[formatter release];
 	}
 	
 	// Summary
-	if (item.summary) {
-		self.summaryString = [item.summary stringByConvertingHTMLToPlainText];
+	if (self.item.summary) {
+		self.summaryString = [self.item.summary stringByConvertingHTMLToPlainText];
 	} else {
 		self.summaryString = @"[No Summary]";
 	}
@@ -122,7 +122,7 @@ typedef enum { SectionDetailSummary } DetailRows;
 	// Display
 	cell.textLabel.textColor = [UIColor blackColor];
 	cell.textLabel.font = [UIFont systemFontOfSize:15];
-	if (item) {
+	if (self.item) {
 		
 		// Display
 		switch (indexPath.section) {
@@ -131,15 +131,15 @@ typedef enum { SectionDetailSummary } DetailRows;
 				// Header
 				switch (indexPath.row) {
 					case SectionHeaderTitle:
-						cell.textLabel.font = [UIFont boldSystemFontOfSize:15];
+						cell.textLabel.font = [UIFont systemFontOfSize:15];
 						cell.textLabel.text = [self titleForCurrentItem];;
                         cell.textLabel.numberOfLines = 0; // Multiline
 						break;
 					case SectionHeaderDate:
-						cell.textLabel.text = dateString ? dateString : @"[No Date]";
+						cell.textLabel.text = self.dateString ? self.dateString : @"[No Date]";
 						break;
 					case SectionHeaderURL:
-						cell.textLabel.text = item.link ? @"open full report in Safari" : @"[No Link]";
+						cell.textLabel.text = self.item.link ? @"open full report in Safari" : @"[No Link]";
 						cell.textLabel.textColor = [UIColor blueColor];
 						cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 						break;
@@ -150,7 +150,7 @@ typedef enum { SectionDetailSummary } DetailRows;
 			case SectionDetail: {
 				
 				// Summary
-				cell.textLabel.text = summaryString;
+				cell.textLabel.text = self.summaryString;
 				cell.textLabel.numberOfLines = 0; // Multiline
 				break;
 				
@@ -168,9 +168,8 @@ typedef enum { SectionDetailSummary } DetailRows;
 }
 
 - (NSString *)titleForCurrentItem {
-    // Item Info
-    NSString *itemTitle = item.title ? [item.title stringByConvertingHTMLToPlainText] : @"[No Title]";
-    return itemTitle;
+    NSString *itemTitle = self.item.title ? [self.item.title stringByConvertingHTMLToPlainText] : @"[No Title]";
+    return [itemTitle stringByReplacingOccurrencesOfString:@" : " withString:@"\n"];
 }
 
 - (NSString *)tipsForCurrentItem {
@@ -184,7 +183,7 @@ typedef enum { SectionDetailSummary } DetailRows;
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 	if (indexPath.section == SectionHeader) {
         if (indexPath.row == SectionHeaderTitle) {
-            CGSize s = [[self titleForCurrentItem] sizeWithFont:[UIFont boldSystemFontOfSize:15] 
+            CGSize s = [[self titleForCurrentItem] sizeWithFont:[UIFont systemFontOfSize:15] 
                                    constrainedToSize:CGSizeMake(self.view.bounds.size.width - 40, MAXFLOAT)  // - 40 For cell padding
                                        lineBreakMode:UILineBreakModeWordWrap];
             return s.height + 16; // Add padding
@@ -199,7 +198,7 @@ typedef enum { SectionDetailSummary } DetailRows;
         NSString *cellTextContent;
         if (indexPath.section == SectionDetail) {
             cellTextContent = @"[No Summary]";
-            if (summaryString) cellTextContent = summaryString;
+            if (self.summaryString) cellTextContent = self.summaryString;
         }
         else if (indexPath.section == SectionTips) {
             cellTextContent = [self tipsForCurrentItem];
@@ -221,8 +220,8 @@ typedef enum { SectionDetailSummary } DetailRows;
 
 	// Open URL
 	if (indexPath.section == SectionHeader && indexPath.row == SectionHeaderURL) {
-		if (item.link) {
-			[[UIApplication sharedApplication] openURL:[NSURL URLWithString:item.link]];
+		if (self.item.link) {
+			[[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.item.link]];
 		}
 	}
 	
@@ -235,9 +234,9 @@ typedef enum { SectionDetailSummary } DetailRows;
 #pragma mark Memory management
 
 - (void)dealloc {
-	[dateString release];
-	[summaryString release];
-	[item release];
+	[_dateString release];
+	[_summaryString release];
+	[_item release];
     [super dealloc];
 }
 
@@ -251,10 +250,10 @@ typedef enum { SectionDetailSummary } DetailRows;
     NSLog(@"savedSpots before: %@", savedSpots);
     
     if (!savedSpots) {
-        savedSpots = [NSArray arrayWithObject:item.link];
+        savedSpots = [NSArray arrayWithObject:self.item.link];
     }
-    else if (![savedSpots containsObject:item.link]) {
-        savedSpots = [savedSpots arrayByAddingObject:item.link];
+    else if (![savedSpots containsObject:self.item.link]) {
+        savedSpots = [savedSpots arrayByAddingObject:self.item.link];
     }
     
     [defaults setObject:savedSpots forKey:@"savedSpots"];
@@ -283,7 +282,7 @@ typedef enum { SectionDetailSummary } DetailRows;
     
     NSLog(@"savedSpots before: %@", savedSpots);
     
-    [savedSpots removeObject:item.link];
+    [savedSpots removeObject:self.item.link];
     [defaults setObject:savedSpots  forKey:@"savedSpots"];
     if (![defaults synchronize]) {
         [NSException raise:@"Error" format:@"NSUserDefaults synchronize failed"];
@@ -315,7 +314,7 @@ typedef enum { SectionDetailSummary } DetailRows;
 
 - (BOOL)itemIsSaved {
     NSArray *savedSpots = [[NSUserDefaults standardUserDefaults] objectForKey:@"savedSpots"];
-    return [savedSpots containsObject:item.link];
+    return [savedSpots containsObject:self.item.link];
 }
 
 @end

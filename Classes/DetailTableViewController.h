@@ -31,8 +31,7 @@
 #import "MWFeedItem.h"
 
 @interface DetailTableViewController : UITableViewController {
-	MWFeedItem *item;
-	NSString *dateString, *summaryString;
+    
 }
 
 @property (nonatomic, retain) MWFeedItem *item;
