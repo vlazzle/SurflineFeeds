@@ -87,9 +87,8 @@ typedef enum { SectionDetailSummary } DetailRows;
     self.navigationItem.rightBarButtonItem = saveUnsaveButton;
 }
 
-- (BOOL)itemIsSaved {
-    NSArray *savedSpots = [[NSUserDefaults standardUserDefaults] objectForKey:@"savedSpots"];
-    return [savedSpots containsObject:item.link];
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    return YES;
 }
 
 #pragma mark -
@@ -301,6 +300,11 @@ typedef enum { SectionDetailSummary } DetailRows;
     [rootVC savedSpotsDidChange];
     
     [self.tableView reloadData];
+}
+
+- (BOOL)itemIsSaved {
+    NSArray *savedSpots = [[NSUserDefaults standardUserDefaults] objectForKey:@"savedSpots"];
+    return [savedSpots containsObject:item.link];
 }
 
 @end
