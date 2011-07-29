@@ -145,10 +145,9 @@
     NSMutableArray *unsavedItems = [NSMutableArray array];
     
     // partition into saved and unsaved items
-    [parsedItems enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        NSString *itemLink = ((MWFeedItem *) obj).link;
-        [([savedSpots containsObject:itemLink] ? savedItems : unsavedItems) addObject:obj];
-    }];
+    for (MWFeedItem *item in parsedItems) {
+        [([savedSpots containsObject:item.link] ? savedItems : unsavedItems) addObject:item];
+    }
     
     NSSortDescriptor *alphaOrder = [NSSortDescriptor sortDescriptorWithKey:@"title" ascending:YES];
     NSArray *sortDescriptors = [NSArray arrayWithObject:alphaOrder];
