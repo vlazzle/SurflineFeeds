@@ -79,12 +79,13 @@ typedef enum { SectionDetailSummary } DetailRows;
     
     UIBarButtonItem *saveUnsaveButton;
     if ([self itemIsSaved]) {
-        saveUnsaveButton = [[UIBarButtonItem alloc] initWithTitle:@"Unsave" style:UIBarButtonSystemItemSave target:self action:@selector(unsaveSpot:)];
+        saveUnsaveButton = [[UIBarButtonItem alloc] initWithTitle:@"Unsave" style:UIBarButtonItemStylePlain target:self action:@selector(unsaveSpot:)];
     }
     else {
-        saveUnsaveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonSystemItemSave target:self action:@selector(saveSpot:)];
+        saveUnsaveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(saveSpot:)];
     }
     self.navigationItem.rightBarButtonItem = saveUnsaveButton;
+    [saveUnsaveButton release];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -181,24 +182,25 @@ typedef enum { SectionDetailSummary } DetailRows;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSString *cellTextContent;
+    
 	if (indexPath.section == SectionHeader) {
         if (indexPath.row == SectionHeaderTitle) {
-            CGSize s = [[self titleForCurrentItem] sizeWithFont:[UIFont systemFontOfSize:15] 
-                                   constrainedToSize:CGSizeMake(self.view.bounds.size.width - 40, MAXFLOAT)  // - 40 For cell padding
-                                       lineBreakMode:UILineBreakModeWordWrap];
-            return s.height + 16; // Add padding
+            cellTextContent = [self titleForCurrentItem];
         }
         else {
             // Regular
             return 34;
         }
-	} else {
+	}
+    else {
 		// Get height of summary or notes
-        
-        NSString *cellTextContent;
         if (indexPath.section == SectionDetail) {
-            cellTextContent = @"[No Summary]";
-            if (self.summaryString) cellTextContent = self.summaryString;
+            if (self.summaryString) { 
+                cellTextContent = self.summaryString;
+            } else {
+                 cellTextContent = @"[No Summary]";
+            }
         }
         else if (indexPath.section == SectionTips) {
             cellTextContent = [self tipsForCurrentItem];
@@ -206,11 +208,13 @@ typedef enum { SectionDetailSummary } DetailRows;
         else {
             cellTextContent = @"";
         }
-		CGSize s = [cellTextContent sizeWithFont:[UIFont systemFontOfSize:15] 
-					   constrainedToSize:CGSizeMake(self.view.bounds.size.width - 40, MAXFLOAT)  // - 40 For cell padding
-						   lineBreakMode:UILineBreakModeWordWrap];
-		return s.height + 16; // Add padding
 	}
+    
+    CGSize s = [cellTextContent sizeWithFont:[UIFont systemFontOfSize:15] 
+                           constrainedToSize:CGSizeMake(self.view.bounds.size.width - 40, MAXFLOAT)  // - 40 For cell padding
+                               lineBreakMode:UILineBreakModeWordWrap];
+    
+    return s.height + 16; // Add padding
 }
 
 #pragma mark -
