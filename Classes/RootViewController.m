@@ -140,8 +140,16 @@
     
     NSSortDescriptor *alphaOrder = [NSSortDescriptor sortDescriptorWithKey:@"title" ascending:YES];
     NSArray *sortDescriptors = [NSArray arrayWithObject:alphaOrder];
-    NSArray *sortedSavedItems = [savedItems sortedArrayUsingDescriptors:sortDescriptors];
-    NSArray *sortedUnsavedItems = [unsavedItems sortedArrayUsingDescriptors:sortDescriptors];
+    
+    if (sortedSavedItems) {
+        [sortedSavedItems release];
+    }
+    if (sortedUnsavedItems) {
+        [sortedUnsavedItems release];
+    }
+    sortedSavedItems = [[savedItems sortedArrayUsingDescriptors:sortDescriptors] retain];
+    sortedUnsavedItems = [[unsavedItems sortedArrayUsingDescriptors:sortDescriptors] retain];
+    
     self.itemsToDisplay = [sortedSavedItems arrayByAddingObjectsFromArray:sortedUnsavedItems];
     
     self.tableView.userInteractionEnabled = YES;
@@ -205,6 +213,14 @@
 		cell.textLabel.font = [UIFont boldSystemFontOfSize:15];
 		cell.textLabel.text = title;
 		cell.detailTextLabel.text = subtitle;
+        
+        // highlight cells containing saved items
+        if (indexPath.row < [sortedSavedItems count]) {
+            cell.textLabel.textColor = [UIColor colorWithRed:204.0/255 green:85.0/255 blue:0/255 alpha:1];
+        }
+        else {
+            cell.textLabel.textColor = [UIColor blackColor];
+        }
 	}
     return cell;
 }

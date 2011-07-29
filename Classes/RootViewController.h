@@ -44,6 +44,8 @@
     
     // Feed URL choice
     Feeds *feeds;
+    
+    NSArray *sortedSavedItems, *sortedUnsavedItems;
 }
 
 // Properties
