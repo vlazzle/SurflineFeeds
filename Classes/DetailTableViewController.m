@@ -193,32 +193,24 @@ typedef enum { SectionDetailSummary } DetailRows;
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *cellTextContent;
-    
 	if (indexPath.section == SectionHeader) {
         if (indexPath.row == SectionHeaderTitle) {
             cellTextContent = [self titleForCurrentItem];
         }
         else {
-            // Regular
+            // SectionHeaderDate and SectionHeaderURL should always be one line
             return 34;
         }
 	}
+    else if (indexPath.section == SectionDetail) {
+        cellTextContent = (self.summaryString ? self.summaryString : @"[No Summary]");
+    }
+    else if (indexPath.section == SectionTips) {
+        cellTextContent = [self tipsForCurrentItem];
+    }
     else {
-		// Get height of summary or notes
-        if (indexPath.section == SectionDetail) {
-            if (self.summaryString) { 
-                cellTextContent = self.summaryString;
-            } else {
-                 cellTextContent = @"[No Summary]";
-            }
-        }
-        else if (indexPath.section == SectionTips) {
-            cellTextContent = [self tipsForCurrentItem];
-        }
-        else {
-            cellTextContent = @"";
-        }
-	}
+        cellTextContent = @"";
+    }
     
     CGSize s = [cellTextContent sizeWithFont:[UIFont systemFontOfSize:15] 
                            constrainedToSize:CGSizeMake(self.view.bounds.size.width - 40, MAXFLOAT)  // - 40 For cell padding
