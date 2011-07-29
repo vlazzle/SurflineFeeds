@@ -138,8 +138,8 @@
         [([savedSpots containsObject:itemLink] ? savedItems : unsavedItems) addObject:obj];
     }];
     
-    NSSortDescriptor *newestFirst = [NSSortDescriptor sortDescriptorWithKey:@"date" ascending:NO];
-    NSArray *sortDescriptors = [NSArray arrayWithObject:newestFirst];
+    NSSortDescriptor *alphaOrder = [NSSortDescriptor sortDescriptorWithKey:@"title" ascending:YES];
+    NSArray *sortDescriptors = [NSArray arrayWithObject:alphaOrder];
     NSArray *sortedSavedItems = [savedItems sortedArrayUsingDescriptors:sortDescriptors];
     NSArray *sortedUnsavedItems = [unsavedItems sortedArrayUsingDescriptors:sortDescriptors];
     self.itemsToDisplay = [sortedSavedItems arrayByAddingObjectsFromArray:sortedUnsavedItems];
