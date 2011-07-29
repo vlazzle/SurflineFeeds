@@ -33,22 +33,13 @@
 #import "Feeds.h"
 
 @interface RootViewController : UITableViewController <UITableViewDelegate, MWFeedParserDelegate, FlipsideViewControllerDelegate> {
-	
-	// Parsing
 	MWFeedParser *feedParser;
 	NSMutableArray *parsedItems;
-	
-	// Displaying
-	NSArray *itemsToDisplay;
 	NSDateFormatter *formatter;
-    
-    // Feed URL choice
     Feeds *feeds;
-    
     NSArray *sortedSavedItems, *sortedUnsavedItems;
 }
 
-// Properties
 @property (nonatomic, retain) NSArray *itemsToDisplay;
 
 - (IBAction)showInfo:(id)sender;

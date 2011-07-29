@@ -42,6 +42,16 @@ typedef enum { SectionDetailSummary } DetailRows;
 @synthesize item=_item, dateString=_dateString, summaryString=_summaryString;
 
 #pragma mark -
+#pragma mark Memory management
+
+- (void)dealloc {
+	[_dateString release];
+	[_summaryString release];
+	[_item release];
+    [super dealloc];
+}
+
+#pragma mark -
 #pragma mark Initialization
 
 - (id)initWithStyle:(UITableViewStyle)style {
@@ -232,16 +242,6 @@ typedef enum { SectionDetailSummary } DetailRows;
 	// Deselect
 	[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 
-}
-
-#pragma mark -
-#pragma mark Memory management
-
-- (void)dealloc {
-	[_dateString release];
-	[_summaryString release];
-	[_item release];
-    [super dealloc];
 }
 
 # pragma mark -

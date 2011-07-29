@@ -34,7 +34,19 @@
 
 @implementation RootViewController
 
-@synthesize itemsToDisplay;
+@synthesize itemsToDisplay=_itemsToDisplay;
+
+#pragma mark -
+#pragma mark Memory management
+
+- (void)dealloc {
+	[formatter release];
+	[parsedItems release];
+	[_itemsToDisplay release];
+	[feedParser release];
+    [feeds release];
+    [super dealloc];
+}
 
 #pragma mark -
 #pragma mark View lifecycle
@@ -177,7 +189,7 @@
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return itemsToDisplay.count;
+    return [self.itemsToDisplay count];
 }
 
 // Customize the appearance of table view cells.
@@ -192,7 +204,7 @@
     }
     
 	// Configure the cell.
-	MWFeedItem *item = [itemsToDisplay objectAtIndex:indexPath.row];
+	MWFeedItem *item = [self.itemsToDisplay objectAtIndex:indexPath.row];
 	if (item) {
         // Process
         NSString *title, *subtitle;
@@ -232,24 +244,12 @@
 
 	// Show detail
 	DetailTableViewController *detail = [[DetailTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
-	detail.item = (MWFeedItem *)[itemsToDisplay objectAtIndex:indexPath.row];
+	detail.item = (MWFeedItem *)[self.itemsToDisplay objectAtIndex:indexPath.row];
 	[self.navigationController pushViewController:detail animated:YES];
 	[detail release];
 	
 	// Deselect
 	[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-}
-
-#pragma mark -
-#pragma mark Memory management
-
-- (void)dealloc {
-	[formatter release];
-	[parsedItems release];
-	[itemsToDisplay release];
-	[feedParser release];
-    [feeds release];
-    [super dealloc];
 }
 
 #pragma mark -
