@@ -6,10 +6,18 @@
 
 #import "FlipsideViewController.h"
 
+static CGFloat OVERLAY_ON_ALPHA = 0.7;
+static CGFloat OVERLAY_OFF_ALPHA = 0;
+static NSTimeInterval OVERLAY_ON_DURATION = 0.2;
+static NSTimeInterval OVERLAY_OFF_DURATION = 0.2;
+
+@interface FlipsideViewController ()
+@property (readwrite, nonatomic, retain) IBOutlet UIButton *overlayButton;
+@end
 
 @implementation FlipsideViewController
 
-@synthesize delegate=_delegate, feedPickerView=_feedPickerView;
+@synthesize delegate=_delegate, feedPickerView=_feedPickerView, overlayButton=_overlayButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -61,7 +69,16 @@
 
 - (IBAction)done:(id)sender
 {
-    [self.delegate flipsideViewControllerDidFinish:self];
+    CGRect pickerBounds = self.feedPickerView.bounds; 
+    [self fadeOutOverlayWithCompletion:^(BOOL finished) {
+        [UIView animateWithDuration:0.2 animations:^{
+            self.feedPickerView.bounds = CGRectMake(
+                                                    pickerBounds.origin.x, pickerBounds.origin.y - pickerBounds.size.height,
+                                                    pickerBounds.size.width, pickerBounds.size.height);
+        }completion:^(BOOL finished) {
+            [self.delegate flipsideViewControllerDidFinish:self];
+        }];
+    }];
 }
 
 #pragma mark - UIPickerViewDelegate
@@ -80,6 +97,33 @@
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
     [feeds pickFeed:row];
+}
+
+#pragma mark -
+#pragma mark Overlay Toggling
+
+- (void)fadeInOverlay {
+    [UIView animateWithDuration:OVERLAY_ON_DURATION animations:^{
+        self.overlayButton.alpha = OVERLAY_ON_ALPHA;
+    }];
+}
+
+- (void)fadeInOverlayWithCompletion:(void (^)(BOOL finished))completion {
+    [UIView animateWithDuration:OVERLAY_ON_DURATION animations:^{
+        self.overlayButton.alpha = OVERLAY_ON_ALPHA;
+    }completion:completion];
+}
+
+- (void)fadeOutOverlay {
+    [UIView animateWithDuration:OVERLAY_OFF_DURATION animations:^{
+        self.overlayButton.alpha = OVERLAY_OFF_ALPHA;
+    }];
+}
+     
+- (void)fadeOutOverlayWithCompletion:(void (^)(BOOL finished))completion {
+    [UIView animateWithDuration:OVERLAY_OFF_DURATION animations:^{
+        self.overlayButton.alpha = OVERLAY_OFF_ALPHA;
+    }completion:completion];
 }
 
 @end

@@ -282,7 +282,9 @@
 
 - (void)flipsideViewControllerDidFinish:(FlipsideViewController *)controller
 {
-    [self dismissModalViewControllerAnimated:YES];
+    [flipsideVC.view removeFromSuperview];
+    [flipsideVC release];
+    
     [self refresh];
 }
 
@@ -291,12 +293,26 @@
 
 - (IBAction)showInfo:(id)sender
 {    
-    FlipsideViewController *controller = [[FlipsideViewController alloc] initWithNibName:@"FlipsideView" bundle:nil];
-    controller.delegate = self;
-    controller.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-    [self presentModalViewController:controller animated:YES];
+    flipsideVC = [[FlipsideViewController alloc] initWithNibName:@"FlipsideView" bundle:nil];
+    flipsideVC.delegate = self;
+    flipsideVC.view.frame = CGRectMake(0, 20, 320, 460);
+
+    // save picker bounds from position in xib
+    CGRect pickerBounds = flipsideVC.feedPickerView.bounds;
     
-    [controller release];
+    // start below the view frame to slide up later
+    flipsideVC.feedPickerView.bounds = CGRectMake(pickerBounds.origin.x, pickerBounds.origin.y - pickerBounds.size.height,
+                                                  pickerBounds.size.width, pickerBounds.size.height);
+
+    [self.navigationController.view addSubview:flipsideVC.view];
+    
+    [UIView animateWithDuration:.2 animations:^{
+        // slide picker up into the view frame from the bottom
+        flipsideVC.feedPickerView.bounds = CGRectMake(pickerBounds.origin.x, pickerBounds.origin.y,
+                                                      pickerBounds.size.width, pickerBounds.size.height);
+    }completion:^(BOOL finished) {
+        [flipsideVC fadeInOverlay];
+    }];
 }
 
 @end

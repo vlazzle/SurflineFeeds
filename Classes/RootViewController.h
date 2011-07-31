@@ -38,13 +38,14 @@
 	NSDateFormatter *formatter;
     Feeds *feeds;
     NSArray *sortedSavedItems, *sortedUnsavedItems;
+    FlipsideViewController *flipsideVC;
 }
 
 @property (nonatomic, retain) NSArray *itemsToDisplay;
 
 - (IBAction)showInfo:(id)sender;
-
 - (void)initParser;
+- (void)refresh;
 - (void)savedSpotsDidChange;
 
 @end

@@ -35,7 +35,7 @@ typedef enum { SectionHeader, SectionDetail, SectionTips } Sections;
 typedef enum { SectionHeaderTitle, SectionHeaderDate, SectionHeaderURL } HeaderRows;
 typedef enum { SectionDetailSummary } DetailRows;
 
-#define SAVE_UNSAVE_DURATION 0.5
+static NSTimeInterval SAVE_UNSAVE_DURATION = 0.5;
 
 @implementation DetailTableViewController
 

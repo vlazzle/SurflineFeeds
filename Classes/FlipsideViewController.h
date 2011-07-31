@@ -18,8 +18,12 @@
 
 @property (nonatomic, assign) id <FlipsideViewControllerDelegate> delegate;
 @property (readonly, nonatomic) IBOutlet UIPickerView *feedPickerView;
+@property (readonly, nonatomic, retain) IBOutlet UIButton *overlayButton;
 
 - (IBAction)done:(id)sender;
+- (void)fadeInOverlay;
+- (void)fadeOutOverlay;
+- (void)fadeOutOverlayWithCompletion:(void (^)(BOOL finished))completion;
 
 @end
 
