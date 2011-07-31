@@ -295,7 +295,6 @@
 {    
     flipsideVC = [[FlipsideViewController alloc] initWithNibName:@"FlipsideView" bundle:nil];
     flipsideVC.delegate = self;
-    flipsideVC.view.frame = CGRectMake(0, 20, 320, 460);
 
     // save picker bounds from position in xib
     CGRect pickerBounds = flipsideVC.feedPickerView.bounds;

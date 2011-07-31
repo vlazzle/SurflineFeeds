@@ -8,8 +8,6 @@
 
 static CGFloat OVERLAY_ON_ALPHA = 0.7;
 static CGFloat OVERLAY_OFF_ALPHA = 0;
-static NSTimeInterval OVERLAY_ON_DURATION = 0.2;
-static NSTimeInterval OVERLAY_OFF_DURATION = 0.2;
 
 @interface FlipsideViewController ()
 @property (readwrite, nonatomic, retain) IBOutlet UIButton *overlayButton;
@@ -25,6 +23,9 @@ static NSTimeInterval OVERLAY_OFF_DURATION = 0.2;
     if (self) {
         // TODO dependency injection?
         feeds = [[Feeds alloc] init];
+        
+        // take up the whole window to overlap the navbar
+        self.view.frame = CGRectMake(0, 20, 320, 460);
     }
     return self;
 }
@@ -103,25 +104,25 @@ static NSTimeInterval OVERLAY_OFF_DURATION = 0.2;
 #pragma mark Overlay Toggling
 
 - (void)fadeInOverlay {
-    [UIView animateWithDuration:OVERLAY_ON_DURATION animations:^{
+    [UIView animateWithDuration:0.2 animations:^{
         self.overlayButton.alpha = OVERLAY_ON_ALPHA;
     }];
 }
 
 - (void)fadeInOverlayWithCompletion:(void (^)(BOOL finished))completion {
-    [UIView animateWithDuration:OVERLAY_ON_DURATION animations:^{
+    [UIView animateWithDuration:0.2 animations:^{
         self.overlayButton.alpha = OVERLAY_ON_ALPHA;
     }completion:completion];
 }
 
 - (void)fadeOutOverlay {
-    [UIView animateWithDuration:OVERLAY_OFF_DURATION animations:^{
+    [UIView animateWithDuration:0.2 animations:^{
         self.overlayButton.alpha = OVERLAY_OFF_ALPHA;
     }];
 }
      
 - (void)fadeOutOverlayWithCompletion:(void (^)(BOOL finished))completion {
-    [UIView animateWithDuration:OVERLAY_OFF_DURATION animations:^{
+    [UIView animateWithDuration:0.2 animations:^{
         self.overlayButton.alpha = OVERLAY_OFF_ALPHA;
     }completion:completion];
 }
