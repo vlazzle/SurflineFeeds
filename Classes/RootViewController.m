@@ -31,6 +31,7 @@
 #import "NSString+HTML.h"
 #import "MWFeedParser.h"
 #import "DetailTableViewController.h"
+#import "SLFColors.h"
 
 @implementation RootViewController
 
@@ -253,7 +254,7 @@
         
         // highlight cells containing saved items
         if (indexPath.row < [sortedSavedItems count]) {
-            cell.textLabel.textColor = [UIColor colorWithRed:204.0/255 green:85.0/255 blue:0/255 alpha:1];
+            cell.textLabel.textColor = SLF_BURNT_ORANGE_COLOR;
         }
         else {
             cell.textLabel.textColor = [UIColor blackColor];

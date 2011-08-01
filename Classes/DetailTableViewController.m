@@ -30,6 +30,7 @@
 #import "DetailTableViewController.h"
 #import "NSString+HTML.h"
 #import "RootViewController.h"
+#import "SLFColors.h"
 
 typedef enum { SectionHeader, SectionDetail, SectionTips } Sections;
 typedef enum { SectionHeaderTitle, SectionHeaderDate, SectionHeaderURL } HeaderRows;
@@ -169,6 +170,9 @@ static NSTimeInterval SAVE_UNSAVE_DURATION = 0.5;
             case SectionTips: {
                 cell.textLabel.text = [self tipsForCurrentItem];
                 cell.textLabel.numberOfLines = 0; // Multiline
+                if ([self itemIsSaved]) {
+                    cell.textLabel.textColor = SLF_BURNT_ORANGE_COLOR;
+                }
                 break;
             }
 		}
