@@ -342,6 +342,9 @@
     
     if (feedChanged) {
         [self refresh];
+        
+        NSIndexPath *top = [NSIndexPath indexPathForRow:0 inSection:0];
+        [self.tableView scrollToRowAtIndexPath:top atScrollPosition:UITableViewScrollPositionTop animated:NO];
     }
 }
 
