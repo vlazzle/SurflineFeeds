@@ -14,6 +14,7 @@
 
 @interface FlipsideViewController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate> {
     Feeds *feeds;
+    NSUInteger originalFeedChoice;
 }
 
 @property (nonatomic, assign) id <FlipsideViewControllerDelegate> delegate;
@@ -29,5 +30,5 @@
 
 
 @protocol FlipsideViewControllerDelegate
-- (void)flipsideViewControllerDidFinish:(FlipsideViewController *)controller;
+- (void)flipsideViewControllerDidFinish:(FlipsideViewController *)controller andDidChangeFeed:(BOOL)feedChanged;
 @end

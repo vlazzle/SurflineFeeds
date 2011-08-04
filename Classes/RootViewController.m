@@ -40,7 +40,8 @@
 #pragma mark -
 #pragma mark Memory management
 
-- (void)dealloc {
+- (void)dealloc
+{
 	[_itemsToDisplay release];
     [_starredItems release];
     
@@ -55,7 +56,8 @@
 #pragma mark -
 #pragma mark View lifecycle
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
 		
 	// Super
 	[super viewDidLoad];
@@ -85,7 +87,8 @@
     [feedParser parse];
 }
 
-- (void)initParser {
+- (void)initParser
+{
     NSInteger feedChoiceNum = [feeds currentChoice];
     NSURL *feedUrl = [NSURL URLWithString:[feeds feedUrlForRow:feedChoiceNum]];
     
@@ -117,7 +120,8 @@
     // e.g. self.myOutlet = nil;
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
+- (void)viewWillDisappear:(BOOL)animated
+{
     NSLog(@"viewWillDisappear");
 }
 
@@ -125,7 +129,8 @@
 #pragma mark Parsing
 
 // Reset and reparse
-- (void)refresh {
+- (void)refresh
+{
 	self.title = @"Refreshing...";
 	[parsedItems removeAllObjects];
 	[feedParser stopParsing];
@@ -140,7 +145,8 @@
 	self.tableView.alpha = 0.3;
 }
 
-- (void)savedSpotsDidChange {
+- (void)savedSpotsDidChange
+{
 	self.tableView.userInteractionEnabled = NO;
 	self.tableView.alpha = 0.3;
 
@@ -150,13 +156,15 @@
 #pragma mark -
 #pragma mark MWFeedParserDelegate
 
-- (void)feedParserDidStart:(MWFeedParser *)parser {
+- (void)feedParserDidStart:(MWFeedParser *)parser
+{
 	NSLog(@"Started Parsing: %@", parser.url);
     
     self.starredItems = [NSMutableArray array];
 }
 
-- (void)feedParser:(MWFeedParser *)parser didParseFeedInfo:(MWFeedInfo *)info {
+- (void)feedParser:(MWFeedParser *)parser didParseFeedInfo:(MWFeedInfo *)info
+{
 	NSLog(@"Parsed Feed Info: “%@”", info.title);
     
     NSString *trimmedTitle = [info.title stringByReplacingOccurrencesOfString:@"Surfline RSS Break Report for "
@@ -164,12 +172,14 @@
 	self.title = trimmedTitle;
 }
 
-- (void)feedParser:(MWFeedParser *)parser didParseFeedItem:(MWFeedItem *)item {
+- (void)feedParser:(MWFeedParser *)parser didParseFeedItem:(MWFeedItem *)item
+{
 	NSLog(@"Parsed Feed Item: “%@”", item.title);
 	if (item) [parsedItems addObject:item];	
 }
 
-- (void)feedParserDidFinish:(MWFeedParser *)parser {
+- (void)feedParserDidFinish:(MWFeedParser *)parser
+{
 	NSLog(@"Finished Parsing%@", (parser.stopped ? @" (Stopped)" : @""));
     
     NSArray *savedSpots = [[NSUserDefaults standardUserDefaults] objectForKey:@"savedSpots"];
@@ -231,7 +241,8 @@
 	[self.tableView reloadData];
 }
 
-- (void)feedParser:(MWFeedParser *)parser didFailWithError:(NSError *)error {
+- (void)feedParser:(MWFeedParser *)parser didFailWithError:(NSError *)error
+{
 	NSLog(@"Finished Parsing With Error: %@", error);
 	self.title = @"Failed";
 	self.itemsToDisplay = [NSArray array];
@@ -245,17 +256,20 @@
 #pragma mark Table view data source
 
 // Customize the number of sections in the table view.
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
     return 1;
 }
 
 // Customize the number of rows in the table view.
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
     return [self.itemsToDisplay count];
 }
 
 // Customize the appearance of table view cells.
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     
     static NSString *CellIdentifier = @"Cell";
     
@@ -306,8 +320,8 @@
 #pragma mark -
 #pragma mark Table view delegate
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
 	// Show detail
 	DetailTableViewController *detail = [[DetailTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
 	detail.item = (MWFeedItem *)[self.itemsToDisplay objectAtIndex:indexPath.row];
@@ -321,12 +335,14 @@
 #pragma mark -
 #pragma mark FlipsideViewControllerDelegate
 
-- (void)flipsideViewControllerDidFinish:(FlipsideViewController *)controller
+- (void)flipsideViewControllerDidFinish:(FlipsideViewController *)controller andDidChangeFeed:(BOOL)feedChanged
 {
     [flipsideVC.view removeFromSuperview];
     [flipsideVC release];
     
-    [self refresh];
+    if (feedChanged) {
+        [self refresh];
+    }
 }
 
 #pragma mark -

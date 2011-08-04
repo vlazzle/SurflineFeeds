@@ -50,7 +50,8 @@ static CGFloat OVERLAY_OFF_ALPHA = 0;
 {
     [super viewDidLoad];
     
-    [self.feedPickerView selectRow:[feeds currentChoice] inComponent:0 animated:NO];
+    originalFeedChoice = [feeds currentChoice];
+    [self.feedPickerView selectRow:originalFeedChoice inComponent:0 animated:NO];
 }
 
 - (void)viewDidUnload
@@ -77,7 +78,8 @@ static CGFloat OVERLAY_OFF_ALPHA = 0;
                                                     pickerBounds.origin.x, pickerBounds.origin.y - pickerBounds.size.height,
                                                     pickerBounds.size.width, pickerBounds.size.height);
         }completion:^(BOOL finished) {
-            [self.delegate flipsideViewControllerDidFinish:self];
+            BOOL feedChanged = [feeds currentChoice] != originalFeedChoice;
+            [self.delegate flipsideViewControllerDidFinish:self andDidChangeFeed:feedChanged];
         }];
     }];
 }
