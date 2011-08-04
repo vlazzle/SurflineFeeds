@@ -8,7 +8,8 @@
 
 @implementation Feeds
 
-- (Feeds *)init {
+- (Feeds *)init
+{
     [super init];
     
     // TODO put this data in a config file or DB or something
@@ -21,6 +22,7 @@
              @"http://feeds.feedburner.com/surfline-rss-surf-report-oahu-west-side", @"HI: Oʻahu: West Side",
              @"http://feeds.feedburner.com/surfline-rss-surf-report-oahu-south-shore", @"HI: Oʻahu: South Shore",
              @"http://feeds.feedburner.com/surfline-rss-surf-report-oahu-windward-side", @"HI: Oʻahu: Windward Side",
+             @"http://feeds.feedburner.com/surfline-rss-surf-report-tonga", @"Tonga",
              nil];
     
     feedNames = [[NSMutableArray alloc] init];
@@ -32,7 +34,8 @@
     return self;
 }
 
-- (void)pickFeed:(NSUInteger)index {
+- (void)pickFeed:(NSUInteger)index
+{
     NSString *feedName = [self feedNameForRow:index];
     NSLog(@"picked %@", feedName);
     
@@ -43,7 +46,8 @@
     }
 }
 
-- (NSUInteger)currentChoice {    
+- (NSUInteger)currentChoice
+{    
     NSString *feedName = [[NSUserDefaults standardUserDefaults] objectForKey:@"feedChoice"];
     if (feedName) {
         NSUInteger choiceNum = [feedNames indexOfObject:feedName];
@@ -56,20 +60,24 @@
     return 0;
 }
 
-- (NSString *)feedNameForRow:(NSUInteger)index {
+- (NSString *)feedNameForRow:(NSUInteger)index
+{
     return [feedNames objectAtIndex:index];
 }
 
-- (NSString *)feedUrlForRow:(NSUInteger)index {
+- (NSString *)feedUrlForRow:(NSUInteger)index
+{
     NSString *feedName = [self feedNameForRow:index];
     return [feeds objectForKey:feedName];
 }
 
-- (NSUInteger)count {
+- (NSUInteger)count
+{
     return [feeds count];
 }
 
-- (void)dealloc {
+- (void)dealloc
+{
     [feeds release];
     [feedNames release];
     [super dealloc];
