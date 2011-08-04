@@ -184,7 +184,14 @@ static NSTimeInterval SAVE_UNSAVE_DURATION = 0.5;
 
 - (NSString *)titleForCurrentItem {
     NSString *itemTitle = self.item.title ? [self.item.title stringByConvertingHTMLToPlainText] : @"[No Title]";
-    return [itemTitle stringByReplacingOccurrencesOfString:@" : " withString:@"\n"];
+    itemTitle = [itemTitle stringByReplacingOccurrencesOfString:@" : " withString:@"\n"];
+    
+    RootViewController *rootVC = [self.navigationController.viewControllers objectAtIndex:0];
+    if ([rootVC.starredItems containsObject:self.item]) {
+        itemTitle = [NSString stringWithFormat:@"\u2605 %@", itemTitle];
+    }
+         
+    return itemTitle;
 }
 
 - (NSString *)tipsForCurrentItem {

@@ -35,17 +35,20 @@
 
 @implementation RootViewController
 
-@synthesize itemsToDisplay=_itemsToDisplay;
+@synthesize itemsToDisplay=_itemsToDisplay, starredItems=_starredItems;
 
 #pragma mark -
 #pragma mark Memory management
 
 - (void)dealloc {
+	[_itemsToDisplay release];
+    [_starredItems release];
+    
 	[formatter release];
 	[parsedItems release];
-	[_itemsToDisplay release];
 	[feedParser release];
     [feeds release];
+    
     [super dealloc];
 }
 
@@ -149,6 +152,8 @@
 
 - (void)feedParserDidStart:(MWFeedParser *)parser {
 	NSLog(@"Started Parsing: %@", parser.url);
+    
+    self.starredItems = [NSMutableArray array];
 }
 
 - (void)feedParser:(MWFeedParser *)parser didParseFeedInfo:(MWFeedInfo *)info {
@@ -190,6 +195,37 @@
     
     self.itemsToDisplay = [sortedSavedItems arrayByAddingObjectsFromArray:sortedUnsavedItems];
     
+    
+    // find the spot with the biggest waves
+    int maxHeight = 0;
+    for (MWFeedItem *item in self.itemsToDisplay) {
+        NSScanner *maxHeightScanner = [NSScanner scannerWithString:item.title];
+        int height = 0;
+        
+        while (![maxHeightScanner isAtEnd]) {
+            // look for an integer followed by "ft"
+            [maxHeightScanner scanUpToCharactersFromSet:[NSCharacterSet decimalDigitCharacterSet] intoString:NULL];
+            [maxHeightScanner scanInt:&height];
+            if ([maxHeightScanner scanString:@"ft" intoString:NULL]) {
+                if (height == maxHeight) {
+                    // tied for max height
+                    [self.starredItems addObject:item];
+                }
+                else if (height > maxHeight) {
+                    // we have a new max height
+                    maxHeight = height;
+                    [self.starredItems removeAllObjects];
+                    [self.starredItems addObject:item];
+                }
+                
+                // TODO be smarter with "3-4 ft." vs "3-4 ft. +" comparisons
+                // TODO be smarter with "2-4 ft" vs "3-4 ft" comparisons
+                
+                break;
+            }
+        }
+    }
+
     self.tableView.userInteractionEnabled = YES;
 	self.tableView.alpha = 1;
 	[self.tableView reloadData];
@@ -241,6 +277,10 @@
                      [plainTextTitle substringToIndex:sepRange.location],
                      [formatter stringFromDate:item.date]];
             subtitle = [plainTextTitle substringFromIndex:(sepRange.location + sepRange.length)];
+            
+            if ([self.starredItems containsObject:item]) {
+                title = [NSString stringWithFormat:@"\u2605 %@", title];
+            }
         }
         else {
             title = @"[No title]";

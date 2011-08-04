@@ -42,6 +42,7 @@
 }
 
 @property (nonatomic, retain) NSArray *itemsToDisplay;
+@property (nonatomic, retain) NSMutableArray *starredItems;
 
 - (IBAction)showInfo:(id)sender;
 - (void)initParser;
