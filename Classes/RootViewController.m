@@ -359,19 +359,32 @@
     flipsideVC = [[FlipsideViewController alloc] initWithNibName:@"FlipsideView" bundle:nil];
     flipsideVC.delegate = self;
 
-    // save picker bounds from position in xib
+    // save bounds from position in xib
     CGRect pickerBounds = flipsideVC.feedPickerView.bounds;
+    CGRect locationBounds = flipsideVC.locationView.bounds;
+
     
     // start below the view frame to slide up later
     flipsideVC.feedPickerView.bounds = CGRectMake(pickerBounds.origin.x, pickerBounds.origin.y - pickerBounds.size.height,
                                                   pickerBounds.size.width, pickerBounds.size.height);
+    
+    // start to the right of the view frame to slide left later
+    flipsideVC.locationView.bounds = CGRectMake(locationBounds.origin.x - locationBounds.size.width, locationBounds.origin.y,
+                                                  locationBounds.size.width, locationBounds.size.height);
 
     [self.navigationController.view addSubview:flipsideVC.view];
     
     [UIView animateWithDuration:.2 animations:^{
+        // TODO make sure it's ok to access autoreleased variables in block
+        
         // slide picker up into the view frame from the bottom
-        flipsideVC.feedPickerView.bounds = CGRectMake(pickerBounds.origin.x, pickerBounds.origin.y,
-                                                      pickerBounds.size.width, pickerBounds.size.height);
+        flipsideVC.feedPickerView.bounds = pickerBounds;
+        
+        // slide switch left into the view frame from the right
+        flipsideVC.locationView.bounds = locationBounds;
+        
+        // TODO make a background image, since this looks terrible right now
+        flipsideVC.locationView.backgroundColor = [UIColor lightGrayColor];
     }completion:^(BOOL finished) {
         [flipsideVC fadeInOverlay];
     }];

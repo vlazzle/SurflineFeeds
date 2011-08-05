@@ -9,13 +9,16 @@
 static CGFloat OVERLAY_ON_ALPHA = 0.7;
 static CGFloat OVERLAY_OFF_ALPHA = 0;
 
-@interface FlipsideViewController ()
-@property (readwrite, nonatomic, retain) IBOutlet UIButton *overlayButton;
-@end
-
 @implementation FlipsideViewController
 
-@synthesize delegate=_delegate, feedPickerView=_feedPickerView, overlayButton=_overlayButton;
+@synthesize
+    delegate=_delegate,
+    feedPickerView=_feedPickerView,
+    overlayButton=_overlayButton,
+    locationSwitch=_locationSwitch,
+    locationView=_locationView,
+    locationManager=_locationManager,
+    showLocationSwitch=_showLocationSwitch;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -25,12 +28,22 @@ static CGFloat OVERLAY_OFF_ALPHA = 0;
         
         // take up the whole window to overlap the navbar
         self.view.frame = CGRectMake(0, 20, 320, 460);
+        
+        _showLocationSwitch = YES;
+        
+        _locationManager = [[CLLocationManager alloc] init];
+        _locationManager.delegate = self;
+        _locationManager.desiredAccuracy = kCLLocationAccuracyKilometer;
+        _locationManager.distanceFilter = 500;
+        [_locationManager startUpdatingLocation];
     }
     return self;
 }
 
 - (void)dealloc
 {
+    [_locationManager release];
+    
     [super dealloc];
 }
 
@@ -50,6 +63,9 @@ static CGFloat OVERLAY_OFF_ALPHA = 0;
     
     originalFeedChoice = [feeds currentChoice];
     [self.feedPickerView selectRow:originalFeedChoice inComponent:0 animated:NO];
+    
+    self.locationSwitch.enabled = [CLLocationManager locationServicesEnabled] && kCLAuthorizationStatusAuthorized == [CLLocationManager authorizationStatus];
+    NSLog(@"locationSwitch.enabled: %d", self.locationSwitch.enabled);
 }
 
 - (void)viewDidUnload
@@ -69,12 +85,16 @@ static CGFloat OVERLAY_OFF_ALPHA = 0;
 
 - (IBAction)done:(id)sender
 {
-    CGRect pickerBounds = self.feedPickerView.bounds; 
+    CGRect pickerBounds = self.feedPickerView.bounds;
+    CGRect locationBounds = self.locationView.bounds;
+    
     [self fadeOutOverlayWithCompletion:^(BOOL finished) {
         [UIView animateWithDuration:0.2 animations:^{
-            self.feedPickerView.bounds = CGRectMake(
-                                                    pickerBounds.origin.x, pickerBounds.origin.y - pickerBounds.size.height,
+            self.feedPickerView.bounds = CGRectMake(pickerBounds.origin.x, pickerBounds.origin.y - pickerBounds.size.height,
                                                     pickerBounds.size.width, pickerBounds.size.height);
+            
+            self.locationView.bounds = CGRectMake(locationBounds.origin.x - locationBounds.size.width, locationBounds.origin.y,
+                                                  locationBounds.size.width, locationBounds.size.height);
         }completion:^(BOOL finished) {
             BOOL feedChanged = [feeds currentChoice] != originalFeedChoice;
             [self.delegate flipsideViewControllerDidFinish:self andDidChangeFeed:feedChanged];
@@ -125,6 +145,25 @@ static CGFloat OVERLAY_OFF_ALPHA = 0;
     [UIView animateWithDuration:0.2 animations:^{
         self.overlayButton.alpha = OVERLAY_OFF_ALPHA;
     }completion:completion];
+}
+
+#pragma mark - CLLocationManagerDelegate
+
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
+{
+    switch ([error code]) {
+        case kCLErrorDenied:
+            self.locationSwitch.enabled = NO;
+            break;
+        default:
+            NSLog(@"%@", [error localizedDescription]);
+            break;
+    }
+}
+
+- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
+{
+    self.locationSwitch.enabled = status == kCLAuthorizationStatusAuthorized;
 }
 
 @end
