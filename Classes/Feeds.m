@@ -34,6 +34,17 @@
     return self;
 }
 
++ (Feeds *)sharedFeeds
+{
+    static dispatch_once_t onceToken;
+    static Feeds *singletonObj;
+    dispatch_once(&onceToken, ^{
+        singletonObj = [[Feeds alloc] init];
+    });
+    NSLog(@"returning singleton Feeds object @ %p", singletonObj);
+    return singletonObj;
+}
+
 - (void)pickFeed:(NSUInteger)index
 {
     NSString *feedName = [self feedNameForRow:index];

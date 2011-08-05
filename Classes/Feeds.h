@@ -17,5 +17,8 @@
 - (NSString *)feedUrlForRow:(NSUInteger)index;
 - (NSUInteger)count;
 
+// returns a shared singleton object of class Feeds
+// retain / release / autorelease as normal
++ (Feeds *)sharedFeeds;
 
 @end

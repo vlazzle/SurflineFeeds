@@ -21,8 +21,7 @@ static CGFloat OVERLAY_OFF_ALPHA = 0;
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // TODO dependency injection?
-        feeds = [[Feeds alloc] init];
+        feeds = [[Feeds sharedFeeds] retain];
         
         // take up the whole window to overlap the navbar
         self.view.frame = CGRectMake(0, 20, 320, 460);

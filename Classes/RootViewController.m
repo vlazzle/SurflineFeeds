@@ -80,7 +80,7 @@
                                                                                            target:self
                                                                                            action:@selector(showInfo:)] autorelease];
     
-    feeds = [[Feeds alloc] init];   // TODO dependency injection?
+    feeds = [[Feeds sharedFeeds] retain];
     
     // Parse
     [self initParser];
