@@ -21,7 +21,7 @@ static CGFloat OVERLAY_OFF_ALPHA = 0;
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        feeds = [[Feeds sharedFeeds] retain];
+        feeds = [Feeds sharedFeeds];
         
         // take up the whole window to overlap the navbar
         self.view.frame = CGRectMake(0, 20, 320, 460);
@@ -31,7 +31,6 @@ static CGFloat OVERLAY_OFF_ALPHA = 0;
 
 - (void)dealloc
 {
-    [feeds release];
     [super dealloc];
 }
 

@@ -48,7 +48,6 @@
 	[formatter release];
 	[parsedItems release];
 	[feedParser release];
-    [feeds release];
     
     [super dealloc];
 }
@@ -80,7 +79,7 @@
                                                                                            target:self
                                                                                            action:@selector(showInfo:)] autorelease];
     
-    feeds = [[Feeds sharedFeeds] retain];
+    feeds = [Feeds sharedFeeds];
     
     // Parse
     [self initParser];
