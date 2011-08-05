@@ -84,17 +84,10 @@
     // Parse
     [self initParser];
     [feedParser parse];
-}
-
-- (void)initParser
-{
-    NSInteger feedChoiceNum = [feeds currentChoice];
-    NSURL *feedUrl = [NSURL URLWithString:[feeds feedUrlForRow:feedChoiceNum]];
     
-	feedParser = [[MWFeedParser alloc] initWithFeedURL:feedUrl];
-	feedParser.delegate = self;
-	feedParser.feedParseType = ParseTypeFull; // Parse feed info and all items
-	feedParser.connectionType = ConnectionTypeAsynchronously;
+    if (![feeds hasSavedChoice]) {
+        [self showInfo:self];
+    }
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -126,6 +119,17 @@
 
 #pragma mark -
 #pragma mark Parsing
+
+- (void)initParser
+{
+    NSInteger feedChoiceNum = [feeds currentChoice];
+    NSURL *feedUrl = [NSURL URLWithString:[feeds feedUrlForRow:feedChoiceNum]];
+    
+	feedParser = [[MWFeedParser alloc] initWithFeedURL:feedUrl];
+	feedParser.delegate = self;
+	feedParser.feedParseType = ParseTypeFull; // Parse feed info and all items
+	feedParser.connectionType = ConnectionTypeAsynchronously;
+}
 
 // Reset and reparse
 - (void)refresh

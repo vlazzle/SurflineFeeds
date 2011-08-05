@@ -71,6 +71,10 @@
     return 0;
 }
 
+- (BOOL)hasSavedChoice {
+    return nil != [[NSUserDefaults standardUserDefaults] objectForKey:@"feedChoice"];
+}
+
 - (NSString *)feedNameForRow:(NSUInteger)index
 {
     return [feedNames objectAtIndex:index];

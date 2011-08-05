@@ -13,6 +13,7 @@
 
 - (void)pickFeed:(NSUInteger)index;
 - (NSUInteger)currentChoice;
+- (BOOL)hasSavedChoice;
 - (NSString *)feedNameForRow:(NSUInteger)index;
 - (NSString *)feedUrlForRow:(NSUInteger)index;
 - (NSUInteger)count;
