@@ -25,11 +25,7 @@
              @"http://feeds.feedburner.com/surfline-rss-surf-report-tonga", @"Tonga",
              nil];
     
-    feedNames = [[NSMutableArray alloc] init];
-    [feeds enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-        [feedNames addObject:key];
-    }];
-    [feedNames sortUsingSelector:@selector(caseInsensitiveCompare:)];
+    feedNames = [[[feeds allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] retain];
     
     return self;
 }
