@@ -382,9 +382,6 @@
         
         // slide switch left into the view frame from the right
         flipsideVC.locationView.bounds = locationBounds;
-        
-        // TODO make a background image, since this looks terrible right now
-        flipsideVC.locationView.backgroundColor = [UIColor lightGrayColor];
     }completion:^(BOOL finished) {
         [flipsideVC fadeInOverlay];
     }];

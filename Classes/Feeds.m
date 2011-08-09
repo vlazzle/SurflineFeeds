@@ -3,10 +3,16 @@
 //
 //  Created by Vladimir Chernis on 7/7/11.
 
+#import <CoreLocation/CoreLocation.h>
 #import "Feeds.h"
 
+@interface Feeds ()
+@property (readwrite, nonatomic, retain) NSArray *feedNames;
+@end
 
 @implementation Feeds
+
+@synthesize feedNames=_feedNames;
 
 - (Feeds *)init
 {
@@ -25,11 +31,31 @@
              @"http://feeds.feedburner.com/surfline-rss-surf-report-tonga", @"Tonga",
              nil];
     
-    feedNames = [[NSMutableArray alloc] init];
-    [feeds enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-        [feedNames addObject:key];
-    }];
-    [feedNames sortUsingSelector:@selector(caseInsensitiveCompare:)];
+    self.feedNames = [[feeds allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+    
+    locations = [[NSDictionary alloc] initWithObjectsAndKeys:
+                 [[[CLLocation alloc] initWithLatitude:36.974117100000001 longitude:-122.03079630000001] autorelease],
+                    @"CA: Santa Cruz",
+                 
+                 // TODO update with correct coordinates
+                 [[[CLLocation alloc] initWithLatitude:37.322997800000003 longitude:-122.0321823] autorelease],
+                    @"CA: SF-San Mateo County",
+                 [[[CLLocation alloc] initWithLatitude:0 longitude:0] autorelease],
+                    @"CA: Monterey",
+                 [[[CLLocation alloc] initWithLatitude:0 longitude:0] autorelease],
+                    @"CA: San Luis Obispo County",
+                 [[[CLLocation alloc] initWithLatitude:0 longitude:0] autorelease],
+                    @"HI: Oʻahu: North Shore",
+                 [[[CLLocation alloc] initWithLatitude:0 longitude:0] autorelease],
+                    @"HI: Oʻahu: West Side",
+                 [[[CLLocation alloc] initWithLatitude:0 longitude:0] autorelease],
+                    @"HI: Oʻahu: South Shore",
+                 [[[CLLocation alloc] initWithLatitude:0 longitude:0] autorelease],
+                    @"HI: Oʻahu: Windward Side",
+                 [[[CLLocation alloc] initWithLatitude:0 longitude:0] autorelease],
+                    @"Tonga",
+                 nil];
+    
     
     return self;
 }
@@ -61,7 +87,7 @@
 {    
     NSString *feedName = [[NSUserDefaults standardUserDefaults] objectForKey:@"feedChoice"];
     if (feedName) {
-        NSUInteger choiceNum = [feedNames indexOfObject:feedName];
+        NSUInteger choiceNum = [self.feedNames indexOfObject:feedName];
         if (NSNotFound != choiceNum) {
             return choiceNum;
         }
@@ -77,7 +103,7 @@
 
 - (NSString *)feedNameForRow:(NSUInteger)index
 {
-    return [feedNames objectAtIndex:index];
+    return [self.feedNames objectAtIndex:index];
 }
 
 - (NSString *)feedUrlForRow:(NSUInteger)index
@@ -94,8 +120,14 @@
 - (void)dealloc
 {
     [feeds release];
-    [feedNames release];
+    [_feedNames release];
     [super dealloc];
+}
+
+- (CLLocation *)feedLocationForRow:(NSUInteger)index;
+{
+    NSString *key = [self.feedNames objectAtIndex:index];
+    return [locations objectForKey:key];
 }
 
 @end
