@@ -24,7 +24,7 @@
 		4CC8960B119F0CED00ED61B6 /* MWFeedItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CC89608119F0CED00ED61B6 /* MWFeedItem.m */; };
 		4CC8960F119F0CFB00ED61B6 /* NSString+XMLEntities.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CC8960E119F0CFB00ED61B6 /* NSString+XMLEntities.m */; };
 		4CC89612119F0D0C00ED61B6 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CC89611119F0D0C00ED61B6 /* RootViewController.m */; };
-		F50FAC3A13EC9AF400F980B1 /* saturated.png in Resources */ = {isa = PBXBuildFile; fileRef = F50FAC3913EC9AF400F980B1 /* saturated.png */; };
+		F5A03C1A13F0F7A2008418C7 /* saturated.png in Resources */ = {isa = PBXBuildFile; fileRef = F5A03C1913F0F7A2008418C7 /* saturated.png */; };
 		F5D7B42013EC7BD5005640F0 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5D7B41F13EC7BD5005640F0 /* CoreLocation.framework */; };
 		F5FE4CC013C67F4D002D9113 /* FlipsideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5FE4CBE13C67F4D002D9113 /* FlipsideViewController.m */; };
 		F5FE4CC513C6802E002D9113 /* Feeds.m in Sources */ = {isa = PBXBuildFile; fileRef = F5FE4CC413C6802D002D9113 /* Feeds.m */; };
@@ -64,7 +64,7 @@
 		4CC89610119F0D0C00ED61B6 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		4CC89611119F0D0C00ED61B6 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* SurflineFeeds-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "SurflineFeeds-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
-		F50FAC3913EC9AF400F980B1 /* saturated.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = saturated.png; path = "../../Desktop/ios bar/saturated.png"; sourceTree = "<group>"; };
+		F5A03C1913F0F7A2008418C7 /* saturated.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = saturated.png; sourceTree = "<group>"; };
 		F5D7B41F13EC7BD5005640F0 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		F5FE4CBD13C67F4D002D9113 /* FlipsideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlipsideViewController.h; sourceTree = "<group>"; };
 		F5FE4CBE13C67F4D002D9113 /* FlipsideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlipsideViewController.m; sourceTree = "<group>"; };
@@ -109,7 +109,6 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				F50FAC3913EC9AF400F980B1 /* saturated.png */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -131,6 +130,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				F5A03C1913F0F7A2008418C7 /* saturated.png */,
 				F5FE4CC613C685DA002D9113 /* FlipsideView.xib */,
 				4C661F8A125E50FA007F1792 /* Icon.png */,
 				28F335F01007B36200424DE2 /* RootViewController.xib */,
@@ -272,7 +272,7 @@
 				28F335F11007B36200424DE2 /* RootViewController.xib in Resources */,
 				4C661F8B125E50FA007F1792 /* Icon.png in Resources */,
 				F5FE4CC713C685DA002D9113 /* FlipsideView.xib in Resources */,
-				F50FAC3A13EC9AF400F980B1 /* saturated.png in Resources */,
+				F5A03C1A13F0F7A2008418C7 /* saturated.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
