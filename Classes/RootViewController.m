@@ -161,14 +161,14 @@
 
 - (void)feedParserDidStart:(MWFeedParser *)parser
 {
-	NSLog(@"Started Parsing: %@", parser.url);
+//	NSLog(@"Started Parsing: %@", parser.url);
     
     self.starredItems = [NSMutableArray array];
 }
 
 - (void)feedParser:(MWFeedParser *)parser didParseFeedInfo:(MWFeedInfo *)info
 {
-	NSLog(@"Parsed Feed Info: “%@”", info.title);
+//	NSLog(@"Parsed Feed Info: “%@”", info.title);
     
     NSString *trimmedTitle = [info.title stringByReplacingOccurrencesOfString:@"Surfline RSS Break Report for "
                                                                    withString:@""];
@@ -177,13 +177,13 @@
 
 - (void)feedParser:(MWFeedParser *)parser didParseFeedItem:(MWFeedItem *)item
 {
-	NSLog(@"Parsed Feed Item: “%@”", item.title);
+//	NSLog(@"Parsed Feed Item: “%@”", item.title);
 	if (item) [parsedItems addObject:item];	
 }
 
 - (void)feedParserDidFinish:(MWFeedParser *)parser
 {
-	NSLog(@"Finished Parsing%@", (parser.stopped ? @" (Stopped)" : @""));
+//	NSLog(@"Finished Parsing%@", (parser.stopped ? @" (Stopped)" : @""));
     
     NSArray *savedSpots = [[NSUserDefaults standardUserDefaults] objectForKey:@"savedSpots"];
     NSMutableArray *savedItems = [NSMutableArray array];
@@ -385,6 +385,8 @@
     }completion:^(BOOL finished) {
         [flipsideVC fadeInOverlay];
     }];
+    
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:YES];
 }
 
 @end
