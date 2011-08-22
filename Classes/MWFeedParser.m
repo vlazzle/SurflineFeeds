@@ -158,7 +158,8 @@
 	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url
 												  cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData 
 											  timeoutInterval:60];
-	[request setValue:@"MWFeedParser" forHTTPHeaderField:@"User-Agent"];
+    [request setHTTPShouldHandleCookies:NO];
+    [request setValue:@"MWFeedParser" forHTTPHeaderField:@"User-Agent"];
 	
 	// Debug Log
 	MWLog(@"MWFeedParser: Connecting & downloading feed data");
