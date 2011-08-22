@@ -12,10 +12,6 @@ static CGFloat OVERLAY_OFF_ALPHA = 0;
 static NSUInteger FEED_DISTANCE = 0;
 static NSUInteger FEED_NAME = 1;
 
-@interface FlipsideViewController ()
-@property (readwrite, nonatomic, retain) CLLocationManager *locationManager;
-@end
-
 @implementation FlipsideViewController
 
 @synthesize
@@ -23,8 +19,7 @@ static NSUInteger FEED_NAME = 1;
     feedPickerView=_feedPickerView,
     overlayButton=_overlayButton,
     locationSwitch=_locationSwitch,
-    locationView=_locationView,
-    locationManager=_locationManager;
+    locationView=_locationView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -32,21 +27,27 @@ static NSUInteger FEED_NAME = 1;
     if (self) {
         feeds = [Feeds sharedFeeds];
         
-        // take up the whole window to overlap the navbar
-        self.view.frame = CGRectMake(0, 20, 320, 460);
-        
         // initialize translation table to be a direct mapping
         feedRowTranslationTable = [[NSMutableArray alloc] initWithCapacity:[feeds count]];
         for (int i = 0; i < [feeds count]; i++) {
             [feedRowTranslationTable addObject:[NSNumber numberWithInt:i]];
         }
+        
+        locationManager = [[CLLocationManager alloc] init];
+        locationManager.delegate = self;
+        locationManager.desiredAccuracy = kCLLocationAccuracyKilometer;
+        locationManager.distanceFilter = 500;
+        [locationManager startUpdatingLocation];
+        
+        // take up the whole window to overlap the navbar
+        self.view.frame = CGRectMake(0, 20, 320, 460);
     }
     return self;
 }
 
 - (void)dealloc
 {
-    [_locationManager release];
+    [locationManager release];
     [feedRowTranslationTable release];
     
     [super dealloc];
@@ -66,18 +67,14 @@ static NSUInteger FEED_NAME = 1;
 {
     [super viewDidLoad];
     
+    [locationManager startUpdatingLocation];
+    
+    self.locationSwitch.enabled = ([CLLocationManager locationServicesEnabled] &&
+                                   kCLAuthorizationStatusAuthorized == [CLLocationManager authorizationStatus]);
+    self.locationSwitch.on = [[[NSUserDefaults standardUserDefaults] valueForKey:@"locationSwitchOn"] boolValue];
+    
     originalFeedChoice = [feeds currentChoice];
-    [self.feedPickerView selectRow:originalFeedChoice inComponent:0 animated:NO];
-    
-    self.locationManager = [[[CLLocationManager alloc] init] autorelease];
-    
-    self.locationManager.delegate = self;
-    self.locationManager.desiredAccuracy = kCLLocationAccuracyKilometer;
-    self.locationManager.distanceFilter = 500;
-    [self.locationManager startUpdatingLocation];
-    
-    self.locationSwitch.enabled = [CLLocationManager locationServicesEnabled] && kCLAuthorizationStatusAuthorized == [CLLocationManager authorizationStatus];
-    NSLog(@"locationSwitch.enabled: %d", self.locationSwitch.enabled);
+    [self restoreFeedChoice];
 }
 
 - (void)viewDidUnload
@@ -85,6 +82,8 @@ static NSUInteger FEED_NAME = 1;
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+    
+    [locationManager stopUpdatingLocation];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -97,6 +96,8 @@ static NSUInteger FEED_NAME = 1;
 
 - (IBAction)done:(id)sender
 {
+    [locationManager stopUpdatingLocation];
+    
     CGRect pickerBounds = self.feedPickerView.bounds;
     CGRect locationBounds = self.locationView.bounds;
     
@@ -109,19 +110,24 @@ static NSUInteger FEED_NAME = 1;
                                                   locationBounds.size.width, locationBounds.size.height);
         }completion:^(BOOL finished) {
             BOOL feedChanged = [feeds currentChoice] != originalFeedChoice;
+            NSLog(@"originalFeedChoice: %d", originalFeedChoice);
+            NSLog(@"[feeds currentChoice]: %d", [feeds currentChoice]);
             [self.delegate flipsideViewControllerDidFinish:self andDidChangeFeed:feedChanged];
         }];
     }];
+    
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
 }
 
 - (IBAction)locationSwitchValueChanged:(UISwitch *)sender
 {
-    NSLog(@"new location switch value: %d", sender.on);
-    if (sender.on) {        
-        [self.feedPickerView reloadAllComponents];
-    }
+    [self.feedPickerView reloadAllComponents];
     
-    reorderFeedsByLocation = self.locationSwitch.enabled && self.locationSwitch.on;
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setValue:[NSNumber numberWithBool:self.locationSwitch.on] forKey:@"locationSwitchOn"];
+    [defaults synchronize];
+    
+    [self restoreFeedChoice];
 }
 
 #pragma mark - UIPickerViewDelegate
@@ -135,43 +141,60 @@ static NSUInteger FEED_NAME = 1;
 }
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-    NSUInteger translatedRow;
-    if (reorderFeedsByLocation) {
-        translatedRow = [(NSNumber *)[feedRowTranslationTable objectAtIndex:row] intValue];
+    return [feeds feedNameForRow:[self translateRow:row back:NO]];
+}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+    
+    NSInteger translatedRow = [self translateRow:row back:NO];
+    [feeds pickFeed:translatedRow];
+}
+
+- (NSInteger)translateRow:(NSInteger)row back:(BOOL)back {
+    NSInteger translatedRow;
+    if (self.locationSwitch.on) {
+        if (back) {
+            translatedRow = [feedRowTranslationTable indexOfObject:[NSNumber numberWithInteger:row]];
+        }
+        else {
+            translatedRow = [(NSNumber *)[feedRowTranslationTable objectAtIndex:row] intValue];
+        }
     }
     else {
         translatedRow = row;
     }
-    return [feeds feedNameForRow:translatedRow];
+    
+    return translatedRow;
 }
 
-- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-    [feeds pickFeed:row];
+- (void)restoreFeedChoice {
+    NSInteger translatedFeedChoice = [self translateRow:[feeds currentChoice] back:YES];
+    [self.feedPickerView selectRow:translatedFeedChoice inComponent:0 animated:NO];
 }
 
 #pragma mark -
 #pragma mark Overlay Toggling
 
 - (void)fadeInOverlay {
-    [UIView animateWithDuration:0.2 animations:^{
+    [UIView animateWithDuration:0.1 animations:^{
         self.overlayButton.alpha = OVERLAY_ON_ALPHA;
     }];
 }
 
 - (void)fadeInOverlayWithCompletion:(void (^)(BOOL finished))completion {
-    [UIView animateWithDuration:0.2 animations:^{
+    [UIView animateWithDuration:0.1 animations:^{
         self.overlayButton.alpha = OVERLAY_ON_ALPHA;
     }completion:completion];
 }
 
 - (void)fadeOutOverlay {
-    [UIView animateWithDuration:0.2 animations:^{
+    [UIView animateWithDuration:0.1 animations:^{
         self.overlayButton.alpha = OVERLAY_OFF_ALPHA;
     }];
 }
      
 - (void)fadeOutOverlayWithCompletion:(void (^)(BOOL finished))completion {
-    [UIView animateWithDuration:0.2 animations:^{
+    [UIView animateWithDuration:0.1 animations:^{
         self.overlayButton.alpha = OVERLAY_OFF_ALPHA;
     }completion:completion];
 }
@@ -186,7 +209,7 @@ static NSUInteger FEED_NAME = 1;
         case kCLErrorNetwork:
             self.locationSwitch.on = NO;
             self.locationSwitch.enabled = NO;
-            reorderFeedsByLocation = NO;
+            [self.feedPickerView reloadAllComponents];
             break;
 
         // not using heading or region functionality
@@ -205,16 +228,22 @@ static NSUInteger FEED_NAME = 1;
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
 {
     self.locationSwitch.enabled = [CLLocationManager locationServicesEnabled] && kCLAuthorizationStatusAuthorized == status;
-    reorderFeedsByLocation = self.locationSwitch.enabled && self.locationSwitch.on;
+    if (!self.locationSwitch.enabled) {
+        self.locationSwitch.on = NO;
+    }
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
+    self.locationSwitch.enabled = YES;
+    
+    if (newLocation == oldLocation) return;
+    
     // set up feed location translation table by proximity
     NSMutableArray *feedsByProximity = [NSMutableArray arrayWithCapacity:[feeds count]];
     for (int i = 0; i < [feeds count]; i++) {
         CLLocation *location = [feeds feedLocationForRow:i];
-        CLLocationDistance distance = [self.locationManager.location distanceFromLocation:location];
+        CLLocationDistance distance = [newLocation distanceFromLocation:location];
         [feedsByProximity addObject:[NSArray arrayWithObjects:
                                      [NSNumber numberWithDouble:distance],
                                      [feeds feedNameForRow:i],
@@ -225,17 +254,18 @@ static NSUInteger FEED_NAME = 1;
     [feedsByProximity sortUsingComparator:^(id obj1, id obj2) {
         NSNumber *lhs = [((NSArray *) obj1) objectAtIndex:FEED_DISTANCE];
         NSNumber *rhs = [((NSArray *) obj2) objectAtIndex:FEED_DISTANCE];
-        NSLog(@"comparing %@ to %@", lhs, rhs);
         return [lhs compare:rhs];
     }];
     
     [feedRowTranslationTable removeAllObjects];
-    
     for (NSArray *pair in feedsByProximity) {
         NSString *feedName = [pair objectAtIndex:FEED_NAME];
-        NSNumber *feedIndex = [NSNumber numberWithInteger:[feeds.feedNames indexOfObject:feedName]];
+        NSNumber *feedIndex = [NSNumber numberWithInteger:[feeds rowForName:feedName]];
         [feedRowTranslationTable addObject:feedIndex];
     }
+    
+    [self.feedPickerView reloadAllComponents];
+    [self restoreFeedChoice];
 }
 
 @end

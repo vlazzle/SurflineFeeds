@@ -15,9 +15,9 @@
 @interface FlipsideViewController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate, CLLocationManagerDelegate> {
     Feeds *feeds;
     NSMutableArray *feedRowTranslationTable;
+    CLLocationManager *locationManager;
     
     NSUInteger originalFeedChoice;
-    BOOL reorderFeedsByLocation;
 }
 
 @property (nonatomic, assign) id<FlipsideViewControllerDelegate> delegate;
@@ -25,13 +25,14 @@
 @property (readonly, nonatomic) IBOutlet UIButton *overlayButton;
 @property (readonly, nonatomic) IBOutlet UISwitch *locationSwitch;
 @property (readonly, nonatomic) IBOutlet UIView *locationView;
-@property (readonly, nonatomic, retain) CLLocationManager *locationManager;
 
 - (IBAction)done:(id)sender;
 - (IBAction)locationSwitchValueChanged:(id)sender;
 - (void)fadeInOverlay;
 - (void)fadeOutOverlay;
 - (void)fadeOutOverlayWithCompletion:(void (^)(BOOL finished))completion;
+- (NSInteger)translateRow:(NSInteger)row back:(BOOL)back;
+- (void)restoreFeedChoice;
 
 @end
 

@@ -11,14 +11,13 @@
     NSDictionary *locations;
 }
 
-@property (readonly, nonatomic, retain) NSArray *feedNames;
-
 - (void)pickFeed:(NSUInteger)index;
 - (NSUInteger)currentChoice;
 - (BOOL)hasSavedChoice;
 - (NSString *)feedNameForRow:(NSUInteger)index;
 - (NSString *)feedUrlForRow:(NSUInteger)index;
 - (CLLocation *)feedLocationForRow:(NSUInteger)index;
+- (NSUInteger)rowForName:(NSString *)feedName;
 - (NSUInteger)count;
 
 // returns a shared singleton object.
