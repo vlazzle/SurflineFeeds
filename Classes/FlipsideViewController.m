@@ -86,12 +86,6 @@ static NSUInteger FEED_NAME = 1;
     [locationManager stopUpdatingLocation];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    // Return YES for supported orientations
-    return YES;
-}
-
 #pragma mark - Actions
 
 - (IBAction)done:(id)sender
