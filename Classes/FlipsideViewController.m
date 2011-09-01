@@ -144,6 +144,9 @@ static NSUInteger FEED_NAME = 1;
     [feeds pickFeed:translatedRow];
 }
 
+#pragma mark -
+#pragma mark UIPickerView support
+
 - (NSInteger)translateRow:(NSInteger)row back:(BOOL)back {
     NSInteger translatedRow;
     if (self.locationSwitch.on) {
@@ -204,6 +207,7 @@ static NSUInteger FEED_NAME = 1;
             self.locationSwitch.on = NO;
             self.locationSwitch.enabled = NO;
             [self.feedPickerView reloadAllComponents];
+            [self restoreFeedChoice];
             break;
 
         // not using heading or region functionality
