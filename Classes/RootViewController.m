@@ -74,8 +74,7 @@
 																							target:self 
 																							action:@selector(refresh)] autorelease];
     
-    // Edit settings button
-    self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
+    self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch
                                                                                            target:self
                                                                                            action:@selector(showInfo:)] autorelease];
     
