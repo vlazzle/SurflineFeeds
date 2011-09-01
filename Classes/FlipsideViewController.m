@@ -235,7 +235,11 @@ static NSUInteger FEED_NAME = 1;
 {
     self.locationSwitch.enabled = YES;
     
-    if (newLocation == oldLocation) return;
+    // no need to update anything if coordinates didn't change
+    if (oldLocation.coordinate.latitude == newLocation.coordinate.latitude &&
+        oldLocation.coordinate.longitude == newLocation.coordinate.longitude) {
+        return;
+    }
     
     // set up feed location translation table by proximity
     NSMutableArray *feedsByProximity = [NSMutableArray arrayWithCapacity:[feeds count]];
