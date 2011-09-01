@@ -43,8 +43,6 @@
         locations = [[NSDictionary alloc] initWithObjectsAndKeys:
                      [[[CLLocation alloc] initWithLatitude:36.97411710 longitude:-122.03079630] autorelease],
                         @"CA: Santa Cruz",
-                     
-                     // TODO update with correct coordinates
                      [[[CLLocation alloc] initWithLatitude:37.75937490 longitude:-122.51080570] autorelease],
                         @"CA: SF-San Mateo County",
                      [[[CLLocation alloc] initWithLatitude:36.60023780 longitude:-121.89467610] autorelease],
