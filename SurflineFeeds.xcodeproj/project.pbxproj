@@ -196,16 +196,16 @@
 		4CC89620119F0D1E00ED61B6 /* App */ = {
 			isa = PBXGroup;
 			children = (
-				F5FE4CBD13C67F4D002D9113 /* FlipsideViewController.h */,
+				4CAD0E1011DA03BD0086F5F8 /* DetailTableViewController.h */,
+				4CAD0E1111DA03BD0086F5F8 /* DetailTableViewController.m */,
 				F5FE4CC313C6802D002D9113 /* Feeds.h */,
 				F5FE4CC413C6802D002D9113 /* Feeds.m */,
+				F5FE4CBD13C67F4D002D9113 /* FlipsideViewController.h */,
 				F5FE4CBE13C67F4D002D9113 /* FlipsideViewController.m */,
 				1D3623240D0F684500981E51 /* MWFeedParserAppDelegate.h */,
 				1D3623250D0F684500981E51 /* MWFeedParserAppDelegate.m */,
 				4CC89610119F0D0C00ED61B6 /* RootViewController.h */,
 				4CC89611119F0D0C00ED61B6 /* RootViewController.m */,
-				4CAD0E1011DA03BD0086F5F8 /* DetailTableViewController.h */,
-				4CAD0E1111DA03BD0086F5F8 /* DetailTableViewController.m */,
 			);
 			name = App;
 			sourceTree = "<group>";
