@@ -40,26 +40,27 @@
         
         self.feedNames = [[feeds allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
         
+        CLLocation *santaCruz = [[[CLLocation alloc] initWithLatitude:36.97411710 longitude:-122.03079630] autorelease];
+        CLLocation *sf = [[[CLLocation alloc] initWithLatitude:37.75937490 longitude:-122.51080570] autorelease];
+        CLLocation *monterey = [[[CLLocation alloc] initWithLatitude:36.60023780 longitude:-121.89467610] autorelease];
+        CLLocation *sanLuisObispo = [[[CLLocation alloc] initWithLatitude:35.16694110 longitude:-120.71775090] autorelease];
+        CLLocation *northShore = [[[CLLocation alloc] initWithLatitude:21.56165750 longitude:-158.07159830] autorelease];
+        CLLocation *westSideOahu = [[[CLLocation alloc] initWithLatitude:21.4682740 longitude:-158.2150620] autorelease];
+        CLLocation *southShore = [[[CLLocation alloc] initWithLatitude:21.2833380 longitude:-157.8427490] autorelease];
+        CLLocation *windwardSideOahu = [[[CLLocation alloc] initWithLatitude:21.39737750 longitude:-157.72866560] autorelease];
+        CLLocation *tonga = [[[CLLocation alloc] initWithLatitude:-21.06666670 longitude:-175.33333330] autorelease];
+        
         locations = [[NSDictionary alloc] initWithObjectsAndKeys:
-                     [[[CLLocation alloc] initWithLatitude:36.97411710 longitude:-122.03079630] autorelease],
-                        @"CA: Santa Cruz",
-                     [[[CLLocation alloc] initWithLatitude:37.75937490 longitude:-122.51080570] autorelease],
-                        @"CA: SF-San Mateo County",
-                     [[[CLLocation alloc] initWithLatitude:36.60023780 longitude:-121.89467610] autorelease],
-                        @"CA: Monterey",
-                     [[[CLLocation alloc] initWithLatitude:35.16694110 longitude:-120.71775090] autorelease],
-                        @"CA: San Luis Obispo County",
-                     [[[CLLocation alloc] initWithLatitude:21.56165750 longitude:-158.07159830] autorelease],
-                        @"HI: Oʻahu: North Shore",
-                     [[[CLLocation alloc] initWithLatitude:21.4682740 longitude:-158.2150620] autorelease],
-                        @"HI: Oʻahu: West Side",
-                     [[[CLLocation alloc] initWithLatitude:21.2833380 longitude:-157.8427490] autorelease],
-                        @"HI: Oʻahu: South Shore",
-                     [[[CLLocation alloc] initWithLatitude:21.39737750 longitude:-157.72866560] autorelease],
-                        @"HI: Oʻahu: Windward Side",
-                     [[[CLLocation alloc] initWithLatitude:-21.06666670 longitude:-175.33333330] autorelease],
-                        @"Tonga",
-                    nil];
+                     santaCruz, @"CA: Santa Cruz",
+                     sf, @"CA: SF-San Mateo County",
+                     monterey, @"CA: Monterey",
+                     sanLuisObispo, @"CA: San Luis Obispo County",
+                     northShore, @"HI: Oʻahu: North Shore",
+                     westSideOahu, @"HI: Oʻahu: West Side",
+                     southShore, @"HI: Oʻahu: South Shore",
+                     windwardSideOahu, @"HI: Oʻahu: Windward Side",
+                     tonga, @"Tonga",
+                     nil];
     }
     
     return self;
