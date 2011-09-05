@@ -33,6 +33,7 @@
 - (void)fadeOutOverlayWithCompletion:(void (^)(BOOL finished))completion;
 - (NSInteger)translateRow:(NSInteger)row back:(BOOL)back;
 - (void)restoreFeedChoice;
+- (void)buildFeedTranslationTableByProximityTo:(CLLocation *)location;
 
 @end
 

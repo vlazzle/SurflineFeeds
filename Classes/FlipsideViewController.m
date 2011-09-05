@@ -33,12 +33,6 @@ static NSUInteger FEED_NAME = 1;
             [feedRowTranslationTable addObject:[NSNumber numberWithInt:i]];
         }
         
-        locationManager = [[CLLocationManager alloc] init];
-        locationManager.delegate = self;
-        locationManager.desiredAccuracy = kCLLocationAccuracyKilometer;
-        locationManager.distanceFilter = 500;
-        [locationManager startUpdatingLocation];
-        
         // take up the whole window to overlap the navbar
         self.view.frame = CGRectMake(0, 20, 320, 460);
     }
@@ -47,7 +41,7 @@ static NSUInteger FEED_NAME = 1;
 
 - (void)dealloc
 {
-    [locationManager release];
+    if (locationManager) [locationManager release];
     [feedRowTranslationTable release];
     
     [super dealloc];
@@ -67,13 +61,24 @@ static NSUInteger FEED_NAME = 1;
 {
     [super viewDidLoad];
     
-    [locationManager startUpdatingLocation];
-    
     self.locationSwitch.enabled = ([CLLocationManager locationServicesEnabled] &&
                                    kCLAuthorizationStatusAuthorized == [CLLocationManager authorizationStatus]);
     self.locationSwitch.on = [[[NSUserDefaults standardUserDefaults] valueForKey:@"locationSwitchOn"] boolValue];
     
     originalFeedChoice = [feeds currentChoice];
+    
+    if ([CLLocationManager locationServicesEnabled]) {
+        locationManager = [[CLLocationManager alloc] init];
+        locationManager.delegate = self;
+        locationManager.desiredAccuracy = kCLLocationAccuracyKilometer;
+        locationManager.distanceFilter = 500;
+        
+        if (self.locationSwitch.on) {
+            [locationManager startUpdatingLocation];
+            [self buildFeedTranslationTableByProximityTo:locationManager.location];
+        }
+    }
+    
     [self restoreFeedChoice];
 }
 
@@ -83,14 +88,14 @@ static NSUInteger FEED_NAME = 1;
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
     
-    [locationManager stopUpdatingLocation];
+    if (locationManager) [locationManager stopUpdatingLocation];
 }
 
 #pragma mark - Actions
 
 - (IBAction)done:(id)sender
 {
-    [locationManager stopUpdatingLocation];
+    if (locationManager) [locationManager stopUpdatingLocation];
     
     CGRect pickerBounds = self.feedPickerView.bounds;
     CGRect locationBounds = self.locationView.bounds;
@@ -115,6 +120,13 @@ static NSUInteger FEED_NAME = 1;
 
 - (IBAction)locationSwitchValueChanged:(UISwitch *)sender
 {
+    if (self.locationSwitch.on) {
+        [locationManager startUpdatingLocation];
+    }
+    else {
+        [locationManager stopUpdatingLocation];
+    }
+    
     [self.feedPickerView reloadAllComponents];
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -167,6 +179,36 @@ static NSUInteger FEED_NAME = 1;
 - (void)restoreFeedChoice {
     NSInteger translatedFeedChoice = [self translateRow:[feeds currentChoice] back:YES];
     [self.feedPickerView selectRow:translatedFeedChoice inComponent:0 animated:NO];
+}
+
+- (void)buildFeedTranslationTableByProximityTo:(CLLocation *)location {
+    // set up feed location translation table by proximity
+    NSMutableArray *feedsByProximity = [NSMutableArray arrayWithCapacity:[feeds count]];
+    for (int i = 0; i < [feeds count]; i++) {
+        CLLocation *feedLocation = [feeds feedLocationForRow:i];
+        CLLocationDistance distance = [feedLocation distanceFromLocation:location];
+        [feedsByProximity addObject:[NSArray arrayWithObjects:
+                                     [NSNumber numberWithDouble:distance],
+                                     [feeds feedNameForRow:i],
+                                     nil]];
+    }
+    
+    // TODO maybe it would be better to use NSSortDescriptor and sortDescriptorWithKey:ascending
+    [feedsByProximity sortUsingComparator:^(id obj1, id obj2) {
+        NSNumber *lhs = [((NSArray *) obj1) objectAtIndex:FEED_DISTANCE];
+        NSNumber *rhs = [((NSArray *) obj2) objectAtIndex:FEED_DISTANCE];
+        return [lhs compare:rhs];
+    }];
+    
+    [feedRowTranslationTable removeAllObjects];
+    for (NSArray *pair in feedsByProximity) {
+        NSString *feedName = [pair objectAtIndex:FEED_NAME];
+        NSNumber *feedIndex = [NSNumber numberWithInteger:[feeds rowForName:feedName]];
+        [feedRowTranslationTable addObject:feedIndex];
+    }
+    
+    [self.feedPickerView reloadAllComponents];
+    [self restoreFeedChoice];
 }
 
 #pragma mark -
@@ -241,33 +283,7 @@ static NSUInteger FEED_NAME = 1;
         return;
     }
     
-    // set up feed location translation table by proximity
-    NSMutableArray *feedsByProximity = [NSMutableArray arrayWithCapacity:[feeds count]];
-    for (int i = 0; i < [feeds count]; i++) {
-        CLLocation *location = [feeds feedLocationForRow:i];
-        CLLocationDistance distance = [newLocation distanceFromLocation:location];
-        [feedsByProximity addObject:[NSArray arrayWithObjects:
-                                     [NSNumber numberWithDouble:distance],
-                                     [feeds feedNameForRow:i],
-                                     nil]];
-    }
-    
-    // TODO maybe it would be better to use NSSortDescriptor and sortDescriptorWithKey:ascending
-    [feedsByProximity sortUsingComparator:^(id obj1, id obj2) {
-        NSNumber *lhs = [((NSArray *) obj1) objectAtIndex:FEED_DISTANCE];
-        NSNumber *rhs = [((NSArray *) obj2) objectAtIndex:FEED_DISTANCE];
-        return [lhs compare:rhs];
-    }];
-    
-    [feedRowTranslationTable removeAllObjects];
-    for (NSArray *pair in feedsByProximity) {
-        NSString *feedName = [pair objectAtIndex:FEED_NAME];
-        NSNumber *feedIndex = [NSNumber numberWithInteger:[feeds rowForName:feedName]];
-        [feedRowTranslationTable addObject:feedIndex];
-    }
-    
-    [self.feedPickerView reloadAllComponents];
-    [self restoreFeedChoice];
+    [self buildFeedTranslationTableByProximityTo:newLocation];
 }
 
 @end
