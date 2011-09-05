@@ -1,0 +1,3 @@
+[submodule "EGOTableViewPullRefresh"]
+	path = EGOTableViewPullRefresh
+	url = https://github.com/enormego/EGOTableViewPullRefresh.git

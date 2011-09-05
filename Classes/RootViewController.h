@@ -31,14 +31,19 @@
 #import "MWFeedParser.h"
 #import "FlipsideViewController.h"
 #import "Feeds.h"
+#import "EGORefreshTableHeaderView.h"
 
-@interface RootViewController : UITableViewController <UITableViewDelegate, MWFeedParserDelegate, FlipsideViewControllerDelegate> {
+@interface RootViewController : UITableViewController
+<UITableViewDelegate, UITableViewDataSource, MWFeedParserDelegate, FlipsideViewControllerDelegate, EGORefreshTableHeaderDelegate, UIScrollViewDelegate> {
 	MWFeedParser *feedParser;
 	NSMutableArray *parsedItems;
 	NSDateFormatter *formatter;
     Feeds *feeds;
     NSArray *sortedSavedItems, *sortedUnsavedItems;
     FlipsideViewController *flipsideVC;
+    BOOL refreshing;
+    EGORefreshTableHeaderView *refreshHeaderView;
+    NSDate *dataSourceLastUpdated;
 }
 
 @property (nonatomic, retain) NSArray *itemsToDisplay;
@@ -48,5 +53,6 @@
 - (void)initParser;
 - (void)refresh;
 - (void)savedSpotsDidChange;
+- (void)doneLoadingTableViewData;
 
 @end

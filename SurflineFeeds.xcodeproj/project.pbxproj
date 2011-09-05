@@ -24,6 +24,16 @@
 		4CC8960F119F0CFB00ED61B6 /* NSString+XMLEntities.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CC8960E119F0CFB00ED61B6 /* NSString+XMLEntities.m */; };
 		4CC89612119F0D0C00ED61B6 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CC89611119F0D0C00ED61B6 /* RootViewController.m */; };
 		F5A03C1A13F0F7A2008418C7 /* saturated.png in Resources */ = {isa = PBXBuildFile; fileRef = F5A03C1913F0F7A2008418C7 /* saturated.png */; };
+		F5AD8DC814146A8A005CBCDA /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5AD8DC714146A8A005CBCDA /* QuartzCore.framework */; };
+		F5AD8E1E14147481005CBCDA /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = F5AD8E1414147481005CBCDA /* EGORefreshTableHeaderView.m */; };
+		F5AD8E1F14147481005CBCDA /* blackArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = F5AD8E1614147481005CBCDA /* blackArrow.png */; };
+		F5AD8E2014147481005CBCDA /* blackArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5AD8E1714147481005CBCDA /* blackArrow@2x.png */; };
+		F5AD8E2114147481005CBCDA /* blueArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = F5AD8E1814147481005CBCDA /* blueArrow.png */; };
+		F5AD8E2214147481005CBCDA /* blueArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5AD8E1914147481005CBCDA /* blueArrow@2x.png */; };
+		F5AD8E2314147481005CBCDA /* grayArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = F5AD8E1A14147481005CBCDA /* grayArrow.png */; };
+		F5AD8E2414147481005CBCDA /* grayArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5AD8E1B14147481005CBCDA /* grayArrow@2x.png */; };
+		F5AD8E2514147481005CBCDA /* whiteArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = F5AD8E1C14147481005CBCDA /* whiteArrow.png */; };
+		F5AD8E2614147481005CBCDA /* whiteArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5AD8E1D14147481005CBCDA /* whiteArrow@2x.png */; };
 		F5D7B42013EC7BD5005640F0 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5D7B41F13EC7BD5005640F0 /* CoreLocation.framework */; };
 		F5FE4CC013C67F4D002D9113 /* FlipsideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5FE4CBE13C67F4D002D9113 /* FlipsideViewController.m */; };
 		F5FE4CC513C6802E002D9113 /* Feeds.m in Sources */ = {isa = PBXBuildFile; fileRef = F5FE4CC413C6802D002D9113 /* Feeds.m */; };
@@ -63,6 +73,17 @@
 		4CC89611119F0D0C00ED61B6 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* SurflineFeeds-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "SurflineFeeds-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		F5A03C1913F0F7A2008418C7 /* saturated.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = saturated.png; sourceTree = "<group>"; };
+		F5AD8DC714146A8A005CBCDA /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		F5AD8E1314147481005CBCDA /* EGORefreshTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGORefreshTableHeaderView.h; sourceTree = "<group>"; };
+		F5AD8E1414147481005CBCDA /* EGORefreshTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGORefreshTableHeaderView.m; sourceTree = "<group>"; };
+		F5AD8E1614147481005CBCDA /* blackArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blackArrow.png; sourceTree = "<group>"; };
+		F5AD8E1714147481005CBCDA /* blackArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blackArrow@2x.png"; sourceTree = "<group>"; };
+		F5AD8E1814147481005CBCDA /* blueArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blueArrow.png; sourceTree = "<group>"; };
+		F5AD8E1914147481005CBCDA /* blueArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blueArrow@2x.png"; sourceTree = "<group>"; };
+		F5AD8E1A14147481005CBCDA /* grayArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grayArrow.png; sourceTree = "<group>"; };
+		F5AD8E1B14147481005CBCDA /* grayArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "grayArrow@2x.png"; sourceTree = "<group>"; };
+		F5AD8E1C14147481005CBCDA /* whiteArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whiteArrow.png; sourceTree = "<group>"; };
+		F5AD8E1D14147481005CBCDA /* whiteArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "whiteArrow@2x.png"; sourceTree = "<group>"; };
 		F5D7B41F13EC7BD5005640F0 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		F5FE4CBD13C67F4D002D9113 /* FlipsideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlipsideViewController.h; sourceTree = "<group>"; };
 		F5FE4CBE13C67F4D002D9113 /* FlipsideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlipsideViewController.m; sourceTree = "<group>"; };
@@ -76,6 +97,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F5AD8DC814146A8A005CBCDA /* QuartzCore.framework in Frameworks */,
 				F5D7B42013EC7BD5005640F0 /* CoreLocation.framework in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
@@ -106,6 +128,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				F5AD8E1014147481005CBCDA /* EGOTableViewPullRefresh */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -140,6 +163,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F5AD8DC714146A8A005CBCDA /* QuartzCore.framework */,
 				F5D7B41F13EC7BD5005640F0 /* CoreLocation.framework */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
@@ -210,6 +234,48 @@
 			name = App;
 			sourceTree = "<group>";
 		};
+		F5AD8E1014147481005CBCDA /* EGOTableViewPullRefresh */ = {
+			isa = PBXGroup;
+			children = (
+				F5AD8E1114147481005CBCDA /* Classes */,
+				F5AD8E1514147481005CBCDA /* Resources */,
+			);
+			name = EGOTableViewPullRefresh;
+			path = EGOTableViewPullRefresh/EGOTableViewPullRefresh;
+			sourceTree = "<group>";
+		};
+		F5AD8E1114147481005CBCDA /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				F5AD8E1214147481005CBCDA /* View */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		F5AD8E1214147481005CBCDA /* View */ = {
+			isa = PBXGroup;
+			children = (
+				F5AD8E1314147481005CBCDA /* EGORefreshTableHeaderView.h */,
+				F5AD8E1414147481005CBCDA /* EGORefreshTableHeaderView.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		F5AD8E1514147481005CBCDA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				F5AD8E1614147481005CBCDA /* blackArrow.png */,
+				F5AD8E1714147481005CBCDA /* blackArrow@2x.png */,
+				F5AD8E1814147481005CBCDA /* blueArrow.png */,
+				F5AD8E1914147481005CBCDA /* blueArrow@2x.png */,
+				F5AD8E1A14147481005CBCDA /* grayArrow.png */,
+				F5AD8E1B14147481005CBCDA /* grayArrow@2x.png */,
+				F5AD8E1C14147481005CBCDA /* whiteArrow.png */,
+				F5AD8E1D14147481005CBCDA /* whiteArrow@2x.png */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -269,6 +335,14 @@
 				4C661F8B125E50FA007F1792 /* Icon.png in Resources */,
 				F5FE4CC713C685DA002D9113 /* FlipsideView.xib in Resources */,
 				F5A03C1A13F0F7A2008418C7 /* saturated.png in Resources */,
+				F5AD8E1F14147481005CBCDA /* blackArrow.png in Resources */,
+				F5AD8E2014147481005CBCDA /* blackArrow@2x.png in Resources */,
+				F5AD8E2114147481005CBCDA /* blueArrow.png in Resources */,
+				F5AD8E2214147481005CBCDA /* blueArrow@2x.png in Resources */,
+				F5AD8E2314147481005CBCDA /* grayArrow.png in Resources */,
+				F5AD8E2414147481005CBCDA /* grayArrow@2x.png in Resources */,
+				F5AD8E2514147481005CBCDA /* whiteArrow.png in Resources */,
+				F5AD8E2614147481005CBCDA /* whiteArrow@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -292,6 +366,7 @@
 				4C661F44125E3F2D007F1792 /* NSDate+InternetDateTime.m in Sources */,
 				F5FE4CC013C67F4D002D9113 /* FlipsideViewController.m in Sources */,
 				F5FE4CC513C6802E002D9113 /* Feeds.m in Sources */,
+				F5AD8E1E14147481005CBCDA /* EGORefreshTableHeaderView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

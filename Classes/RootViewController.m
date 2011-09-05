@@ -48,6 +48,8 @@
 	[formatter release];
 	[parsedItems release];
 	[feedParser release];
+    [refreshHeaderView release];
+    [dataSourceLastUpdated release];
     
     [super dealloc];
 }
@@ -83,6 +85,18 @@
     // Parse
     [self initParser];
     [feedParser parse];
+    
+    // set up refreshHeaderView
+    if (refreshHeaderView == nil) {
+		EGORefreshTableHeaderView *view = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.tableView.bounds.size.height, self.view.frame.size.width, self.tableView.bounds.size.height)];
+		view.delegate = self;
+		[self.tableView addSubview:view];
+		refreshHeaderView = view;
+		[view release];
+	}
+	
+	//  update the last update date
+	[refreshHeaderView refreshLastUpdatedDate];
     
     if (![feeds hasSavedChoice]) {
         [self showInfo:self];
@@ -127,7 +141,8 @@
 // Reset and reparse
 - (void)refresh
 {
-	self.title = @"Refreshing...";
+	refreshing = YES;
+    self.title = @"Refreshing...";
 	[parsedItems removeAllObjects];
 	[feedParser stopParsing];
     
@@ -235,6 +250,10 @@
     self.tableView.userInteractionEnabled = YES;
 	self.tableView.alpha = 1;
 	[self.tableView reloadData];
+    
+    dataSourceLastUpdated = [[NSDate date] retain];
+
+    [self doneLoadingTableViewData];
 }
 
 - (void)feedParser:(MWFeedParser *)parser didFailWithError:(NSError *)error
@@ -380,6 +399,49 @@
     }];
     
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:YES];
+}
+
+#pragma mark -
+#pragma mark EGORefreshTableHeaderDelegate Methods
+
+- (void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view{
+	
+	[self refresh];	
+}
+
+- (BOOL)egoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view{
+	
+	return refreshing; // should return if data source model is reloading
+	
+}
+
+- (NSDate *)egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView*)view{
+    return dataSourceLastUpdated;
+}
+
+#pragma mark -
+#pragma mark Data Source Loading / Reloading Methods
+
+- (void)doneLoadingTableViewData{
+	
+	//  model should call this when its done loading
+	refreshing = NO;
+	[refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
+}
+
+#pragma mark -
+#pragma mark UIScrollViewDelegate Methods
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{	
+	
+	[refreshHeaderView egoRefreshScrollViewDidScroll:scrollView];
+    
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+	
+	[refreshHeaderView egoRefreshScrollViewDidEndDragging:scrollView];
+	
 }
 
 @end
